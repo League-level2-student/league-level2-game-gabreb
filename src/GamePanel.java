@@ -77,7 +77,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void drawGameState(Graphics g) {
 		if (needImage) {
-			loadImage("AppleTree.jpg");
+			loadImage("AppleTree.png");
 		}
 		if (gotImage) {
 			g.drawImage(image, 0, 0, ApplesofDeath.WIDTH, ApplesofDeath.HEIGHT, null);
