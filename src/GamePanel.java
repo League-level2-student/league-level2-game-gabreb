@@ -68,7 +68,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, ApplesofDeath.WIDTH, ApplesofDeath.HEIGHT);
 		g.setFont(titleFont);
 		g.setColor(Color.YELLOW);
-		g.drawString("World's Hardest Game", 25, 125);
+		g.drawString("Apples of Death", 25, 125);
 		g.setFont(titleFontEnter);
 		g.drawString("Press ENTER to start", 150, 350);
 		g.setFont(titleFontEnter);
@@ -76,11 +76,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0,0,ApplesofDeath.WIDTH,ApplesofDeath.HEIGHT);
 		if (needImage) {
 			loadImage("AppleTree.png");
 		}
 		if (gotImage) {
-			g.drawImage(image, 0, 0, ApplesofDeath.WIDTH, ApplesofDeath.HEIGHT, null);
+			for (int i = 0; i < 2; i++) {
+				g.drawImage(image,100+(i*300),80,370,370,null);
+			}
+			for (int i = 0; i < 3; i++) {
+				g.drawImage(image, -80+(i*300), 160, 400, 500, null);
+			}
+			for (int i = 0; i < 2; i++) {
+				g.drawImage(image,100+(i*300),240,320,400,null);
+			}
+			g.drawImage(image, -120,300,300,350,null);
+			g.drawImage(image, 650,300,300,350,null);
 		} else {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, ApplesofDeath.WIDTH, ApplesofDeath.HEIGHT);

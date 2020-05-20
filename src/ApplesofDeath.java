@@ -4,7 +4,7 @@ public class ApplesofDeath {
 	JFrame frame;
 	GamePanel gamepanel;
 	public static final int WIDTH = 840;
-	public static final int HEIGHT = 640;
+	public static final int HEIGHT = 610;
 public static void main(String[] args) {
 	ApplesofDeath vader = new ApplesofDeath();
 	vader.setup();
