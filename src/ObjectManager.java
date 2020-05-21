@@ -22,7 +22,7 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void addAlien() {
-		Alien.add(new Alien(randy.nextInt(ApplesofDeath.WIDTH), 0, 50, 50));
+		Alien.add(new Alien(randy.nextInt(ApplesofDeath.WIDTH), 200, 60, 35));
 	}
 
 	void update() {
@@ -73,16 +73,9 @@ public class ObjectManager implements ActionListener{
 
 	void checkCollision() {
 		for (int i = 0; i < Alien.size(); i++) {
-			for (int a = 0; a < PJ.size(); a++) {
-				if (PJ.get(a).collisionBox.intersects(Alien.get(i).collisionBox)) {
-					PJ.get(a).isActive = false;
-					Alien.get(i).isActive = false;
-					score+=1;
-				}
-				}
 			if (mario.collisionBox.intersects(Alien.get(i).collisionBox)) {
 				Alien.get(i).isActive = false;
-				mario.isActive = false;
+				score+=1;
 			}
 		}
 	}

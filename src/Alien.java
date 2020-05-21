@@ -12,7 +12,7 @@ public class Alien extends GameObject{
 		super(x, y, width, height);
 		speed = 1;
 		if (needImage) {
-		    loadImage ("Unknown.png");
+		    loadImage ("images.png");
 		}
 	} 
 	void update() {

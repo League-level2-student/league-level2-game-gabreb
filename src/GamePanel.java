@@ -127,9 +127,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (currentState == GAME && e.getKeyCode() == KeyEvent.VK_SPACE) {
-			manager.addProjectile(mario.getProjectile());
-		}
 		if (currentState == MENU && e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null,
 					"Use the arrow keys to move. The space bar to fire. And try not to die!");
@@ -167,6 +164,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			mario.left = false;
 	} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 		
+		
+		
 			mario.right = false;
 		}
 	}
@@ -186,7 +185,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void startGame() {
-		alienSpawn = new Timer(200, manager);
+		alienSpawn = new Timer(600, manager);
 		alienSpawn.start();
 		manager.score = 0;
 	}

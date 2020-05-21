@@ -15,7 +15,7 @@ public class Player extends GameObject {
 
 	Player(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed = 11;
+		speed = 12;
 		if (needImage) {
 			loadImage("Mario.png");
 		}
