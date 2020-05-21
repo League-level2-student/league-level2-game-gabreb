@@ -31,7 +31,7 @@ public class Player extends GameObject {
 	}
 
 	public void right() {
-		if (x < 445) {
+		if (x < 790) {
 			x+=speed;
 		}
 	}
@@ -42,19 +42,6 @@ public class Player extends GameObject {
 		}
 	}
 
-	public void down() {
-		if (y < 725) {
-			y += speed;
-		} 
-			
-	}
-
-	public void up() {
-		if (y > 5) {
-			y-=speed;
-		}
-
-	}
 
 	void loadImage(String imageFile) {
 		if (needImage) {
@@ -73,12 +60,7 @@ public class Player extends GameObject {
 	}
 
 	void update() {
-		if (up==true ) {
-			up();
-		}
-		if (down==true) {
-			down();
-		}
+	
 		if (right==true) {
 			right();
 		}

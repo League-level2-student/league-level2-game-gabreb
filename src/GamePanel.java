@@ -20,8 +20,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font titleFontEnter;
 	Timer frameDraw;
-	Player rocketship = new Player(225, 698, 40, 40);
-	ObjectManager manager = new ObjectManager(rocketship);
+	Player mario = new Player(402, 524, 50, 50);
+	ObjectManager manager = new ObjectManager(mario);
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		GamePanel Panel = new GamePanel();
 		if (currentState == MENU) {
 			drawMenuState(g);
-			rocketship.isActive = true;
+			mario.isActive = true;
 		} else if (currentState == GAME) {
 			drawGameState(g);
 		} else if (currentState == END) {
@@ -53,10 +53,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void updateGameState() {
 		manager.update();
-		if (rocketship.isActive == false) {
+		if (mario.isActive == false) {
 			currentState = END;
-			rocketship = new Player(225,668,50,50);
-			manager = new ObjectManager(rocketship); 
+			mario = new Player(402, 524, 50, 50);
+			manager = new ObjectManager(mario); 
 		}
 	}
 
@@ -68,7 +68,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, ApplesofDeath.WIDTH, ApplesofDeath.HEIGHT);
 		g.setFont(titleFont);
 		g.setColor(Color.YELLOW);
-		g.drawString("Apples of Death", 25, 125);
+		g.drawString("Apples of Death", 225, 150);
 		g.setFont(titleFontEnter);
 		g.drawString("Press ENTER to start", 150, 350);
 		g.setFont(titleFontEnter);
@@ -137,7 +137,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (currentState == GAME && e.getKeyCode() == KeyEvent.VK_SPACE) {
-			manager.addProjectile(rocketship.getProjectile());
+			manager.addProjectile(mario.getProjectile());
 		}
 		if (currentState == MENU && e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null,
@@ -154,41 +154,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 				else if (currentState == END) {
 					alienSpawn.stop();
-					rocketship = new Player(225,668,50,50);
-					manager = new ObjectManager(rocketship); 
+					mario = new Player(402, 524, 50, 50);
+					manager = new ObjectManager(mario); 
 				}
 			}
 		}
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			
-				rocketship.up = true;
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				rocketship.down = true;
-			
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 		
-				rocketship.left = true;
+				mario.left = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			
-				rocketship.right = true;
+				mario.right = true;
 			}
 		}
 	
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			
-			rocketship.up = false;
-	} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			rocketship.down = false;
-		
-	} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+	 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 	
-			rocketship.left = false;
+			mario.left = false;
 	} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 		
-			rocketship.right = false;
+			mario.right = false;
 		}
 	}
 
