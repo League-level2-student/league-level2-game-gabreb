@@ -1,8 +1,12 @@
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 public class ApplesofDeath {
 	JFrame frame;
 	GamePanel gamepanel;
+	//840
+	//610
 	public static final int WIDTH = 840;
 	public static final int HEIGHT = 610;
 public static void main(String[] args) {
@@ -21,6 +25,7 @@ void setup() {
 	frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 	frame.addKeyListener(gamepanel);
 }
+
 }
 
 

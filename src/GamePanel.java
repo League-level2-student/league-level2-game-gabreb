@@ -1,6 +1,8 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -8,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -23,10 +26,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Player mario = new Player(402, 524, 50, 50);
 	ObjectManager manager = new ObjectManager(mario);
 	public static BufferedImage image;
+	public static BufferedImage sky;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
 	Timer alienSpawn;
-
+	AppleOrchard orchard = new AppleOrchard();
+	FlamesofStart flames = new FlamesofStart();
 	GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		titleFontEnter = new Font("Arial", Font.PLAIN, 20);
@@ -64,39 +69,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawMenuState(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.fillRect(0, 0, ApplesofDeath.WIDTH, ApplesofDeath.HEIGHT);
+		
+		flames.draw(g);
 		g.setFont(titleFont);
-		g.setColor(Color.YELLOW);
-		g.drawString("Apples of Death", 225, 150);
+		g.setColor(Color.RED);
+		g.drawString("Apples of Death", 275, 125);
 		g.setFont(titleFontEnter);
-		g.drawString("Press ENTER to start", 150, 350);
+		g.drawString("Press ENTER to start", 350, 350);
 		g.setFont(titleFontEnter);
-		g.drawString("Press SPACE for instructions", 120, 550);
+		g.drawString("Press SPACE for instructions", 320, 550);
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0,0,ApplesofDeath.WIDTH,ApplesofDeath.HEIGHT);
 		if (needImage) {
-			loadImage("AppleTree.png");
+			loadImage("Sky.jpg");
 		}
 		if (gotImage) {
-			for (int i = 0; i < 2; i++) {
-				g.drawImage(image,100+(i*300),80,370,370,null);
-			}
-			for (int i = 0; i < 3; i++) {
-				g.drawImage(image, -80+(i*300), 160, 400, 500, null);
-			}
-			for (int i = 0; i < 2; i++) {
-				g.drawImage(image,100+(i*300),240,320,400,null);
-			}
-			g.drawImage(image, -120,300,300,350,null);
-			g.drawImage(image, 650,300,300,350,null);
-		} else {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, ApplesofDeath.WIDTH, ApplesofDeath.HEIGHT);
+			g.drawImage(image, 0,0, ApplesofDeath.WIDTH,ApplesofDeath.HEIGHT,null);
 		}
+		orchard.draw(g);
 		manager.draw(g);
 		g.setColor(Color.RED);
 		g.setFont(titleFontEnter);

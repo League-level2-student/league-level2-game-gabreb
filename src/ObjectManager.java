@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ObjectManager implements ActionListener{
-	Player rocket;
+	Player mario;
 	ArrayList<Projectile> PJ = new ArrayList<Projectile>();
 	ArrayList<Alien> Alien = new ArrayList<Alien>();
 	Random randy = new Random();
@@ -14,7 +14,7 @@ public class ObjectManager implements ActionListener{
 		return score;
 	}
 	ObjectManager(Player rocket) {
-		this.rocket = rocket;
+		this.mario = rocket;
 	}
 
 	void addProjectile(Projectile Pro) {
@@ -26,7 +26,7 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void update() {
-		rocket.update();
+		mario.update();
 		for (Alien a : Alien) {
 			a.update();
 			if (a.y > ApplesofDeath.HEIGHT) {
@@ -44,7 +44,7 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void draw(Graphics g) {
-		rocket.draw(g);
+		mario.draw(g);
 		for (Alien a : Alien) {
 			a.draw(g);
 		}
@@ -80,9 +80,9 @@ public class ObjectManager implements ActionListener{
 					score+=1;
 				}
 				}
-			if (rocket.collisionBox.intersects(Alien.get(i).collisionBox)) {
+			if (mario.collisionBox.intersects(Alien.get(i).collisionBox)) {
 				Alien.get(i).isActive = false;
-				rocket.isActive = false;
+				mario.isActive = false;
 			}
 		}
 	}
