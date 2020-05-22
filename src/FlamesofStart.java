@@ -8,7 +8,6 @@ import javax.swing.ImageIcon;
 
 public class FlamesofStart {
 	public static BufferedImage image;
-	public static BufferedImage sky;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
 	URL url = FlamesofStart.class.getResource("Flames.gif");
