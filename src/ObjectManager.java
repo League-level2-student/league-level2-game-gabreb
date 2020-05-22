@@ -7,7 +7,7 @@ import java.util.Random;
 public class ObjectManager implements ActionListener{
 	Player mario;
 	ArrayList<Projectile> PJ = new ArrayList<Projectile>();
-	ArrayList<Alien> Alien = new ArrayList<Alien>();
+	ArrayList<Apple> Alien = new ArrayList<Apple>();
 	Random randy = new Random();
 	static int score = 0;
 	static int getScore() {
@@ -22,12 +22,12 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void addAlien() {
-		Alien.add(new Alien(randy.nextInt(ApplesofDeath.WIDTH), 200, 60, 35));
+		Alien.add(new Apple(randy.nextInt(ApplesofDeath.WIDTH), 200, 60, 35));
 	}
 
 	void update() {
 		mario.update();
-		for (Alien a : Alien) {
+		for (Apple a : Alien) {
 			a.update();
 			if (a.y > ApplesofDeath.HEIGHT) {
 				a.isActive = false;
@@ -45,7 +45,7 @@ public class ObjectManager implements ActionListener{
 
 	void draw(Graphics g) {
 		mario.draw(g);
-		for (Alien a : Alien) {
+		for (Apple a : Alien) {
 			a.draw(g);
 		}
 		for (Projectile p : PJ) {

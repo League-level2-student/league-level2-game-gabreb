@@ -4,11 +4,11 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-public class Alien extends GameObject{
+public class Apple extends GameObject{
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
-	Alien(int x, int y, int width, int height) {
+	Apple(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		speed = 1;
 		if (needImage) {
