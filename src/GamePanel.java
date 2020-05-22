@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int currentState = MENU;
 	Font titleFont;
 	Font titleFontEnter;
+	Font titleFontScore;
 	Timer frameDraw;
 	Player mario = new Player(402, 524, 50, 50);
 	ObjectManager manager = new ObjectManager(mario);
@@ -32,23 +33,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer alienSpawn;
 	AppleOrchard orchard = new AppleOrchard();
 	FlamesofStart flames = new FlamesofStart();
+	static boolean end234 = true;
+	Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
 	GamePanel() {
-		titleFont = new Font("Arial", Font.PLAIN, 48);
-		titleFontEnter = new Font("Arial", Font.PLAIN, 20);
+		titleFont = new Font("Baskerville", Font.ITALIC, 52);
+		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
+		titleFontScore = new Font("Arial", Font.PLAIN,20);
 		frameDraw = new Timer(1000 / 60, this);
+		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		frameDraw.start();
+	
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
-		GamePanel Panel = new GamePanel();
+		
 		if (currentState == MENU) {
 			drawMenuState(g);
 			mario.isActive = true;
 		} else if (currentState == GAME) {
 			drawGameState(g);
 		} else if (currentState == END) {
-			drawEndState(g);
+			drawGameState(g);
+			if (end234) {
+				end234 = false;
+				JOptionPane.showMessageDialog(null, "You died to an Apple Barrage! Press ENTER to restart!");
+			}
 		}
 
 	}
@@ -63,9 +73,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			mario = new Player(402, 524, 50, 50);
 			manager = new ObjectManager(mario); 
 		}
-	}
-
-	void updateEndState() {
 	}
 
 	void drawMenuState(Graphics g) {
@@ -90,21 +97,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		orchard.draw(g);
 		manager.draw(g);
 		g.setColor(Color.RED);
-		g.setFont(titleFontEnter);
+		g.setFont(titleFontScore);
 		g.drawString("score: " + manager.getScore(), 27, 30);
 	}
 
-	void drawEndState(Graphics g) {
-		g.setColor(Color.RED);
-		g.fillRect(0, 0, ApplesofDeath.WIDTH, ApplesofDeath.HEIGHT);
-		g.setFont(titleFont);
-		g.setColor(Color.YELLOW);
-		g.drawString("Game Over", 120, 125);
-		g.setFont(titleFontEnter);
-		g.drawString("You killed " + manager.getScore() + " enemies", 160, 350);
-		g.setFont(titleFontEnter);
-		g.drawString("Press Enter to Restart", 150, 550);
-	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -114,8 +111,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			updateMenuState();
 		} else if (currentState == GAME) {
 			updateGameState();
-		} else if (currentState == END) {
-			updateEndState();
 		}
 	}
 
@@ -129,7 +124,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (currentState == MENU && e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null,
-					"Use the arrow keys to move. The space bar to fire. And try not to die!");
+					"No instructions");
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -138,6 +133,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			} else {
 				currentState++;
 				if (currentState == GAME) {
+					BeethovensFifthAmazingSymphony.stop();
+					end234 = true;
 					startGame();
 				}
 				else if (currentState == END) {

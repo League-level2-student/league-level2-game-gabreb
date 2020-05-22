@@ -31,6 +31,7 @@ public class ObjectManager implements ActionListener{
 			a.update();
 			if (a.y > ApplesofDeath.HEIGHT) {
 				a.isActive = false;
+				mario.isActive = false;
 			}
 		}
 		for (Projectile p : PJ) {
