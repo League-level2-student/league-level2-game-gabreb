@@ -10,6 +10,7 @@ public class ObjectManager implements ActionListener{
 	ArrayList<Apple> Alien = new ArrayList<Apple>();
 	Random randy = new Random();
 	static int score = 0;
+	Audio Chomp = new Audio("chomp.mp3");
 	static int getScore() {
 		return score;
 	}
@@ -22,7 +23,7 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void addAlien() {
-		Alien.add(new Apple(randy.nextInt(ApplesofDeath.WIDTH), 200, 60, 35));
+		Alien.add(new Apple(randy.nextInt(ApplesofDeath.WIDTH-45), 200, 60, 35));
 	}
 
 	void update() {
@@ -77,6 +78,7 @@ public class ObjectManager implements ActionListener{
 			if (mario.collisionBox.intersects(Alien.get(i).collisionBox)) {
 				Alien.get(i).isActive = false;
 				score+=1;
+				Chomp.play(Audio.PLAY_ENTIRE_SONG);
 			}
 		}
 	}

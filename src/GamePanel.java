@@ -133,7 +133,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			} else {
 				currentState++;
 				if (currentState == GAME) {
-					BeethovensFifthAmazingSymphony.stop();
 					end234 = true;
 					startGame();
 				}
