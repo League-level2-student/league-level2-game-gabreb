@@ -35,12 +35,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	FlamesofStart flames = new FlamesofStart();
 	static boolean end234 = true;
 	Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
+	Timer oneforcurrentstate = new Timer(1000, this);
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN,20);
 		frameDraw = new Timer(1000 / 60, this);
-		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		frameDraw.start();
 	
 	}
@@ -57,7 +58,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			drawGameState(g);
 			if (end234) {
 				end234 = false;
-				JOptionPane.showMessageDialog(null, "You died to an Apple Barrage! Press ENTER to restart!");
+				JOptionPane.showMessageDialog(null, "You died to an Apple Barrage! Press enter to restart!");
+				oneforcurrentstate.start();
 			}
 		}
 
@@ -68,7 +70,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void updateGameState() {
 		manager.update();
-		if (mario.isActive == false) {
+		if (manager.reset == true) {
 			currentState = END;
 			mario = new Player(402, 524, 50, 50);
 			manager = new ObjectManager(mario); 
@@ -106,6 +108,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// System.out.println("action");
+		if (e.getSource() == oneforcurrentstate) {
+			oneforcurrentstate.stop();
+			currentState = MENU;
+		}
 		repaint();
 		if (currentState == MENU) {
 			updateMenuState();
@@ -143,10 +149,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			}
 		}
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+		if (e.getKeyCode() == KeyEvent.VK_LEFT && manager.freeze == false) {
 		
 				mario.left = true;
-		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT && manager.freeze == false) {
 			
 				mario.right = true;
 			}
