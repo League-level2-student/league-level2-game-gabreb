@@ -151,6 +151,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					alienSpawn.stop();
 					mario = new Player(402, 524, 50, 50);
 					manager = new ObjectManager(mario, eagle); 
+					Eagle eagle = new Eagle(-2700,50,70,70);
 				}
 			}
 		}
