@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	FlamesofStart flames = new FlamesofStart();
 	static boolean end234 = true;
 	Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
-	Timer oneforcurrentstate = new Timer(1000, this);
+	Timer oneforcurrentstate = new Timer(100, this);
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
