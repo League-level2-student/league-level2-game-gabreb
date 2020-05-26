@@ -8,6 +8,7 @@ import javax.swing.Timer;
 
 public class ObjectManager implements ActionListener{
 	Player mario;
+	Eagle eagle;
 	ArrayList<Projectile> PJ = new ArrayList<Projectile>();
 	ArrayList<Apple> Alien = new ArrayList<Apple>();
 	Random randy = new Random();
@@ -16,12 +17,13 @@ public class ObjectManager implements ActionListener{
 	Timer Timer = new Timer(6000,this);
 	public boolean reset = false;
 	public boolean freeze = false;
-	
+	int numberofApples = 0;
 	static int getScore() {
 		return score;
 	}
-	ObjectManager(Player rocket) {
+	ObjectManager(Player rocket, Eagle eagle) {
 		this.mario = rocket;
+		this.eagle = eagle;
 	}
 
 	void addProjectile(Projectile Pro) {
@@ -29,7 +31,10 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void addAlien() {
+		numberofApples += 1;
+		if (numberofApples <= 75) {
 		Alien.add(new Apple(randy.nextInt(ApplesofDeath.WIDTH-45), 200, 60, 35));
+		}
 	}
 
 	void update() {
@@ -38,7 +43,7 @@ public class ObjectManager implements ActionListener{
 			a.update();
 			if (a.y > ApplesofDeath.HEIGHT) {
 				a.isActive = false;
-				//mario.isActive = false;
+				eagle.x = -2000;
 				freeze = true;
 				Timer.start();
 				Alien = new ArrayList<Apple>();

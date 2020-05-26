@@ -25,7 +25,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFontScore;
 	Timer frameDraw;
 	Player mario = new Player(402, 524, 50, 50);
-	ObjectManager manager = new ObjectManager(mario);
+	Eagle eagle = new Eagle(-2400,50,70,70);
+	ObjectManager manager = new ObjectManager(mario, eagle);
 	public static BufferedImage image;
 	public static BufferedImage sky;
 	public static boolean needImage = true;
@@ -34,9 +35,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	AppleOrchard orchard = new AppleOrchard();
 	FlamesofStart flames = new FlamesofStart();
 	static boolean end234 = true;
-	Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
+	static Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
 	Timer oneforcurrentstate = new Timer(1, this);
-	Eagle eagle = new Eagle(300,200,70,70);
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
@@ -71,10 +71,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void updateGameState() {
 		manager.update();
+		eagle.update();
 		if (manager.reset == true) {
 			currentState = END;
 			mario = new Player(402, 524, 50, 50);
-			manager = new ObjectManager(mario); 
+			manager = new ObjectManager(mario, eagle); 
+		}
+		if (manager.freeze) {
+			mario.left = false;
+			mario.right = false;
 		}
 	}
 
@@ -108,7 +113,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// System.out.println("action");
 		if (e.getSource() == oneforcurrentstate) {
 			oneforcurrentstate.stop();
 			currentState = MENU;
@@ -146,7 +150,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				else if (currentState == END) {
 					alienSpawn.stop();
 					mario = new Player(402, 524, 50, 50);
-					manager = new ObjectManager(mario); 
+					manager = new ObjectManager(mario, eagle); 
 				}
 			}
 		}

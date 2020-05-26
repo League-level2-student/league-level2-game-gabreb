@@ -8,9 +8,12 @@ public class Eagle extends GameObject {
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
+	Audio eagleSound = new Audio("Eagle.mp3");
+	boolean soundboolean = true;
+	int thirdeagle = 1;
 	Eagle(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed = 5;
+		speed = 3;
 		if (needImage) {
 			loadImage("Unknown.png");
 		}
@@ -32,7 +35,21 @@ public class Eagle extends GameObject {
 		} 
 	}
 	void update() {
-		y+=speed;
+		x+=speed;
+		if (x >= -375 && soundboolean == true) {
+			eagleSound.play(Audio.PLAY_ENTIRE_SONG);
+			soundboolean = false;
+		}
+		if (x>=860) {
+			thirdeagle+=1;
+			if (thirdeagle>2) {
+				x = -1050;
+			}
+			else {
+			x = -1150;
+			}
+			soundboolean = true;
+		}
 		super.update();
 	}
 }
