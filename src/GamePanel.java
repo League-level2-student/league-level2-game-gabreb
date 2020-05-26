@@ -35,7 +35,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	FlamesofStart flames = new FlamesofStart();
 	static boolean end234 = true;
 	Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
-	Timer oneforcurrentstate = new Timer(100, this);
+	Timer oneforcurrentstate = new Timer(1, this);
+	Eagle eagle = new Eagle(300,200,70,70);
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
@@ -78,7 +79,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawMenuState(Graphics g) {
-		
 		flames.draw(g);
 		g.setFont(titleFont);
 		g.setColor(Color.RED);
@@ -98,6 +98,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		orchard.draw(g);
 		manager.draw(g);
+		eagle.draw(g);
 		g.setColor(Color.RED);
 		g.setFont(titleFontScore);
 		g.drawString("score: " + manager.getScore(), 27, 30);
