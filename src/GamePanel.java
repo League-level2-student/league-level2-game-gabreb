@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFontScore;
 	Timer frameDraw;
 	Player mario = new Player(402, 524, 50, 50);
-	Eagle eagle = new Eagle(-2400,50,70,70);
+	Eagle eagle = new Eagle(-2700,50,70,70);
 	ObjectManager manager = new ObjectManager(mario, eagle);
 	public static BufferedImage image;
 	public static BufferedImage sky;

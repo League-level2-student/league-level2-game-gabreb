@@ -36,20 +36,26 @@ public class Eagle extends GameObject {
 	}
 	void update() {
 		x+=speed;
+		if (thirdeagle > 3) {
+			x = -1000000;
+		}
+		else {
 		if (x >= -375 && soundboolean == true) {
 			eagleSound.play(Audio.PLAY_ENTIRE_SONG);
 			soundboolean = false;
 		}
 		if (x>=860) {
 			thirdeagle+=1;
-			if (thirdeagle>2) {
-				x = -1050;
+			if (thirdeagle==3) {
+				x = -1100;
 			}
 			else {
 			x = -1150;
 			}
 			soundboolean = true;
 		}
+		
 		super.update();
+		}
 	}
 }
