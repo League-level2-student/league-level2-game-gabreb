@@ -9,21 +9,23 @@ import javax.swing.Timer;
 public class ObjectManager implements ActionListener{
 	Player mario;
 	Eagle eagle;
+	Egg egg;
 	ArrayList<Projectile> PJ = new ArrayList<Projectile>();
 	ArrayList<Apple> Alien = new ArrayList<Apple>();
 	Random randy = new Random();
 	static int score = 0;
-	Audio Chomp = new Audio("chomp.mp3");
 	Timer Timer = new Timer(6000,this);
 	public boolean reset = false;
 	public boolean freeze = false;
 	int numberofApples = 0;
+	int eggdrop = new Random().nextInt(ApplesofDeath.WIDTH-45);
 	static int getScore() {
 		return score;
 	}
-	ObjectManager(Player rocket, Eagle eagle) {
+	ObjectManager(Player rocket, Eagle eagle, Egg egg) {
 		this.mario = rocket;
 		this.eagle = eagle;
+		this.egg = egg;
 	}
 
 	void addProjectile(Projectile Pro) {
@@ -39,11 +41,18 @@ public class ObjectManager implements ActionListener{
 
 	void update() {
 		mario.update();
+		if (eggdrop+1 == eagle.x || eggdrop-1 == eagle.x || eggdrop+2 == eagle.x || eggdrop-2 == eagle.x || eggdrop == eagle.x) {
+			egg = new Egg(eagle.x,90,50,50);
+			System.out.println(eggdrop);
+			egg.update();
+		}
 		for (Apple a : Alien) {
 			a.update();
 			if (a.y > ApplesofDeath.HEIGHT) {
 				a.isActive = false;
-				eagle.x = -2000;
+				eagle.x = -6000;
+				eagle.update();
+				System.out.println(eagle.x);
 				freeze = true;
 				Timer.start();
 				Alien = new ArrayList<Apple>();
@@ -64,6 +73,7 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void draw(Graphics g) {
+		egg.draw(g);
 		mario.draw(g);
 		for (Apple a : Alien) {
 			a.draw(g);
@@ -104,7 +114,6 @@ public class ObjectManager implements ActionListener{
 				if (freeze == false) {
 				score+=1;
 				}
-				Chomp.play(Audio.PLAY_ENTIRE_SONG);
 			}
 		}
 	}

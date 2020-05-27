@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -19,14 +20,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int MENU = 0;
 	final int GAME = 1;
 	final int END = 2;
+	boolean test = true;
 	int currentState = MENU;
 	Font titleFont;
 	Font titleFontEnter;
 	Font titleFontScore;
 	Timer frameDraw;
+	Egg egg = new Egg(-100,80,50,50);
 	Player mario = new Player(402, 524, 50, 50);
-	Eagle eagle = new Eagle(-2700,50,70,70);
-	ObjectManager manager = new ObjectManager(mario, eagle);
+	Eagle eagle = new Eagle(-2400,40,90,90);
+	ObjectManager manager = new ObjectManager(mario, eagle, egg);
 	public static BufferedImage image;
 	public static BufferedImage sky;
 	public static boolean needImage = true;
@@ -37,12 +40,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static boolean end234 = true;
 	static Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
 	Timer oneforcurrentstate = new Timer(1, this);
+	int eggdrop = new Random().nextInt(ApplesofDeath.WIDTH-45);
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN,20);
 		frameDraw = new Timer(1000 / 60, this);
-		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		frameDraw.start();
 	
 	}
@@ -75,8 +79,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (manager.reset == true) {
 			currentState = END;
 			mario = new Player(402, 524, 50, 50);
-			manager = new ObjectManager(mario, eagle); 
-			eagle = new Eagle(-2700,50,70,70);
+			manager = new ObjectManager(mario, eagle, egg); 
+			eagle = new Eagle(-2400,50,90,90);
 		}
 		if (manager.freeze) {
 			mario.left = false;
@@ -152,8 +156,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					alienSpawn.stop();
 					mario = new Player(402, 524, 50, 50);
-					manager = new ObjectManager(mario, eagle); 
-					eagle = new Eagle(-2700,50,70,70);
+					manager = new ObjectManager(mario, eagle, egg); 
+					eagle = new Eagle(-2400,50,90,90);
 				}
 			}
 		}
