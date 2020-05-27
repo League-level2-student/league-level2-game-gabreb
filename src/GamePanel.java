@@ -76,6 +76,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			currentState = END;
 			mario = new Player(402, 524, 50, 50);
 			manager = new ObjectManager(mario, eagle); 
+			eagle = new Eagle(-2700,50,70,70);
 		}
 		if (manager.freeze) {
 			mario.left = false;
@@ -148,10 +149,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					startGame();
 				}
 				else if (currentState == END) {
+					
 					alienSpawn.stop();
 					mario = new Player(402, 524, 50, 50);
 					manager = new ObjectManager(mario, eagle); 
-					Eagle eagle = new Eagle(-2700,50,70,70);
+					eagle = new Eagle(-2700,50,70,70);
 				}
 			}
 		}
