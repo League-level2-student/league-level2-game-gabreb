@@ -44,8 +44,8 @@ public class ObjectManager implements ActionListener{
 		if (eggdrop+1 == eagle.x || eggdrop-1 == eagle.x || eggdrop+2 == eagle.x || eggdrop-2 == eagle.x || eggdrop == eagle.x) {
 			egg = new Egg(eagle.x,90,50,50);
 			System.out.println(eggdrop);
-			egg.update();
 		}
+		egg.update();
 		for (Apple a : Alien) {
 			a.update();
 			if (a.y > ApplesofDeath.HEIGHT) {

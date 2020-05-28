@@ -74,7 +74,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
+		//makes the apples and mario move
 		manager.update();
+		//this moves the eagle
 		eagle.update();
 		if (manager.reset == true) {
 			currentState = END;
