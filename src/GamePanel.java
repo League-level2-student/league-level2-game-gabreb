@@ -41,6 +41,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
 	Timer oneforcurrentstate = new Timer(1, this);
 	int eggdrop = new Random().nextInt(ApplesofDeath.WIDTH-45);
+	DrawSplatEgg SplatEgg = new DrawSplatEgg();
+	SkyDraw Sky = new SkyDraw();
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
@@ -53,12 +55,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		
 		if (currentState == MENU) {
 			drawMenuState(g);
 			mario.isActive = true;
 		} else if (currentState == GAME) {
+			if (manager.DidEggSplat == false) {
 			drawGameState(g);
+			}
+			else {
+				
+				Sky.draw(g);
+				orchard.draw(g);
+				SplatEgg.draw(g);
+			}
 		} else if (currentState == END) {
 			drawGameState(g);
 			if (end234) {
@@ -102,12 +111,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
-		if (needImage) {
-			loadImage("Sky.jpg");
-		}
-		if (gotImage) {
-			g.drawImage(image, 0,0, ApplesofDeath.WIDTH,ApplesofDeath.HEIGHT,null);
-		}
+		Sky.draw(g);
 		orchard.draw(g);
 		manager.draw(g);
 		eagle.draw(g);
@@ -188,17 +192,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
 
-	void loadImage(String imageFile) {
-		if (needImage) {
-			try {
-				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-				gotImage = true;
-			} catch (Exception e) {
-
-			}
-			needImage = false;
-		}
-	}
 
 	void startGame() {
 		alienSpawn = new Timer(600, manager);

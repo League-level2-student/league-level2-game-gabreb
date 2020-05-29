@@ -19,6 +19,10 @@ public class ObjectManager implements ActionListener{
 	public boolean freeze = false;
 	int numberofApples = 0;
 	int eggdrop = new Random().nextInt(ApplesofDeath.WIDTH-45);
+	int eggdrop2 =  new Random().nextInt(ApplesofDeath.WIDTH-45);
+	int eggdrop3 = new Random().nextInt(ApplesofDeath.WIDTH-45);
+	
+	boolean DidEggSplat = false;
 	static int getScore() {
 		return score;
 	}
@@ -41,10 +45,25 @@ public class ObjectManager implements ActionListener{
 
 	void update() {
 		mario.update();
+		if (eagle.thirdeagle == 1) {
 		if (eggdrop+1 == eagle.x || eggdrop-1 == eagle.x || eggdrop+2 == eagle.x || eggdrop-2 == eagle.x || eggdrop == eagle.x) {
 			egg = new Egg(eagle.x,90,50,50);
 			System.out.println(eggdrop);
 		}
+		}
+		else if (eagle.thirdeagle == 2) {
+			if (eggdrop2+1 == eagle.x || eggdrop2-1 == eagle.x || eggdrop2+2 == eagle.x || eggdrop2-2 == eagle.x || eggdrop2 == eagle.x) {
+				egg = new Egg(eagle.x,90,50,50);
+				System.out.println(eggdrop2);
+				
+			}
+			}
+		else if (eagle.thirdeagle == 3) {
+			if (eggdrop3+1 == eagle.x || eggdrop3-1 == eagle.x || eggdrop3+2 == eagle.x || eggdrop3-2 == eagle.x || eggdrop3 == eagle.x) {
+				egg = new Egg(eagle.x,90,50,50);
+				System.out.println(eggdrop3);
+			}
+			}
 		egg.update();
 		for (Apple a : Alien) {
 			a.update();
@@ -73,6 +92,11 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void draw(Graphics g) {
+		if (egg.collisionBox.intersects(mario.collisionBox)) {
+			DidEggSplat = true;
+			 Alien = new ArrayList<Apple>();
+		}
+		else {
 		egg.draw(g);
 		mario.draw(g);
 		for (Apple a : Alien) {
@@ -81,6 +105,7 @@ public class ObjectManager implements ActionListener{
 		for (Projectile p : PJ) {
 			p.draw(g);
 		}
+	}
 	}
 
 	void purgeObjects() {
