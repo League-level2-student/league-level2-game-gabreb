@@ -48,7 +48,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN,20);
 		frameDraw = new Timer(1000 / 60, this);
-		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		frameDraw.start();
 	
 	}
@@ -87,11 +87,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager.update();
 		//this moves the eagle
 		eagle.update();
-		if (manager.reset == true) {
+		if (manager.reset) {
 			currentState = END;
 			mario = new Player(402, 524, 50, 50);
-			manager = new ObjectManager(mario, eagle, egg); 
+			egg = new Egg(-100,80,50,50);
 			eagle = new Eagle(-2400,50,90,90);
+			manager = new ObjectManager(mario, eagle, egg); 
+		}
+		if (manager.eggreset) {
+			currentState = MENU;
+			mario = new Player(402, 524, 50, 50);
+			egg = new Egg(-100,80,50,50);
+			eagle = new Eagle(-2400,50,90,90);
+			manager = new ObjectManager(mario, eagle, egg); 
 		}
 		if (manager.freeze) {
 			mario.left = false;
@@ -162,8 +170,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					
 					alienSpawn.stop();
 					mario = new Player(402, 524, 50, 50);
-					manager = new ObjectManager(mario, eagle, egg); 
 					eagle = new Eagle(-2400,50,90,90);
+					egg = new Egg(-100,80,50,50);
+					manager = new ObjectManager(mario, eagle, egg); 
 				}
 			}
 		}

@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class ObjectManager implements ActionListener{
@@ -15,14 +16,21 @@ public class ObjectManager implements ActionListener{
 	Random randy = new Random();
 	static int score = 0;
 	Timer Timer = new Timer(6000,this);
+	Timer SplatTimer = new Timer(1700,this);
+	boolean eggreset = false;
+	boolean intersects = true;
 	public boolean reset = false;
 	public boolean freeze = false;
 	int numberofApples = 0;
 	int eggdrop = new Random().nextInt(ApplesofDeath.WIDTH-45);
 	int eggdrop2 =  new Random().nextInt(ApplesofDeath.WIDTH-45);
 	int eggdrop3 = new Random().nextInt(ApplesofDeath.WIDTH-45);
-	
+	boolean rand1 = true;
+	boolean rand2 = true;
+	boolean rand3 = true;
 	boolean DidEggSplat = false;
+	boolean diedtoegg = false;
+	Audio Splat = new Audio("Splat Sound Effect copy.mp3");
 	static int getScore() {
 		return score;
 	}
@@ -37,31 +45,35 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void addAlien() {
+		if (diedtoegg) {
+		}
+		else if (numberofApples <= 75) {
 		numberofApples += 1;
-		if (numberofApples <= 75) {
 		Alien.add(new Apple(randy.nextInt(ApplesofDeath.WIDTH-45), 200, 60, 35));
 		}
 	}
 
 	void update() {
 		mario.update();
-		if (eagle.thirdeagle == 1) {
+		if (eagle.thirdeagle == 1 && rand1) {
 		if (eggdrop+1 == eagle.x || eggdrop-1 == eagle.x || eggdrop+2 == eagle.x || eggdrop-2 == eagle.x || eggdrop == eagle.x) {
 			egg = new Egg(eagle.x,90,50,50);
-			System.out.println(eggdrop);
+			eggdrop = new Random().nextInt(ApplesofDeath.WIDTH-45);
+			rand1 = false;
 		}
 		}
-		else if (eagle.thirdeagle == 2) {
+		else if (eagle.thirdeagle == 2 && rand2) {
 			if (eggdrop2+1 == eagle.x || eggdrop2-1 == eagle.x || eggdrop2+2 == eagle.x || eggdrop2-2 == eagle.x || eggdrop2 == eagle.x) {
 				egg = new Egg(eagle.x,90,50,50);
-				System.out.println(eggdrop2);
-				
+				eggdrop2 = new Random().nextInt(ApplesofDeath.WIDTH-45);
+				rand2 = false;
 			}
 			}
-		else if (eagle.thirdeagle == 3) {
+		else if (eagle.thirdeagle == 3 && rand3) {
 			if (eggdrop3+1 == eagle.x || eggdrop3-1 == eagle.x || eggdrop3+2 == eagle.x || eggdrop3-2 == eagle.x || eggdrop3 == eagle.x) {
 				egg = new Egg(eagle.x,90,50,50);
-				System.out.println(eggdrop3);
+				eggdrop3 = new Random().nextInt(ApplesofDeath.WIDTH-45);
+				rand3 = false;
 			}
 			}
 		egg.update();
@@ -71,7 +83,8 @@ public class ObjectManager implements ActionListener{
 				a.isActive = false;
 				eagle.x = -6000;
 				eagle.update();
-				System.out.println(eagle.x);
+				egg = new Egg(-100,80,50,50);
+				egg.update();
 				freeze = true;
 				Timer.start();
 				Alien = new ArrayList<Apple>();
@@ -92,9 +105,15 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void draw(Graphics g) {
-		if (egg.collisionBox.intersects(mario.collisionBox)) {
+		if (egg.collisionBox.intersects(mario.collisionBox)&& intersects) {
+			Splat.play(Audio.PLAY_ENTIRE_SONG);
 			DidEggSplat = true;
-			 Alien = new ArrayList<Apple>();
+			eagle.thirdeagle = 4;
+			eagle.update();
+			diedtoegg = true;
+			Alien = new ArrayList<Apple>();
+			intersects = false;
+			SplatTimer.start();
 		}
 		else {
 		egg.draw(g);
@@ -129,6 +148,11 @@ public class ObjectManager implements ActionListener{
 		
 		if (e.getSource()==Timer) {
 			reset = true;
+		}
+		if (e.getSource()==SplatTimer&& !intersects) {
+		JOptionPane.showMessageDialog(null, "You died to a bird's excrement! HAHAHAHAH!");
+		intersects = true;
+		eggreset = true;
 		}
 	}
 
