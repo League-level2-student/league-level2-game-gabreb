@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFontEnter;
 	Font titleFontScore;
 	Timer frameDraw;
+	Timer symphony = new Timer(363500,this);
 	Egg egg = new Egg(-100,80,50,50);
 	Player mario = new Player(402, 524, 50, 50);
 	Eagle eagle = new Eagle(-2400,40,90,90);
@@ -142,6 +143,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == GAME) {
 			updateGameState();
 		}
+		if (e.getSource()==symphony) {
+			BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		}
 	}
 
 	@Override
@@ -167,7 +171,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					startGame();
 				}
 				else if (currentState == END) {
-					
 					alienSpawn.stop();
 					mario = new Player(402, 524, 50, 50);
 					eagle = new Eagle(-2400,50,90,90);
