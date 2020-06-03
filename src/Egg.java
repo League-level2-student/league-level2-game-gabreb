@@ -9,9 +9,13 @@ public class Egg extends GameObject {
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
-	Egg(int x, int y, int width, int height) {
+	int targetx;
+	double mariomove;
+	Egg(int x, int y, int width, int height, int targetx) {
 		super(x, y, width, height);
-		speed = 2;
+		this.targetx = targetx;
+		mariomove = ((434)/(targetx-x))/145;
+		speed = 3;
 		if (needImage) {
 			loadImage("Egg.png");
 		}
@@ -19,7 +23,14 @@ public class Egg extends GameObject {
 
 	void update() {
 		y += speed;
-		super.update();
+		if (mariomove < 1 && mariomove >= 0) {
+			mariomove = 1.0;
+		}
+		else if (mariomove > -1 && mariomove <= 0) {
+			mariomove = -1.0;
+		}
+		System.out.println(mariomove);
+		x+=mariomove;
 	}
 
 	void draw(Graphics g) {

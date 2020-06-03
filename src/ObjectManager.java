@@ -57,21 +57,21 @@ public class ObjectManager implements ActionListener{
 		mario.update();
 		if (eagle.thirdeagle == 1 && rand1) {
 		if (eggdrop+1 == eagle.x || eggdrop-1 == eagle.x || eggdrop+2 == eagle.x || eggdrop-2 == eagle.x || eggdrop == eagle.x) {
-			egg = new Egg(eagle.x,90,50,50);
+			egg = new Egg(eagle.x,90,50,50, mario.x);
 			eggdrop = new Random().nextInt(ApplesofDeath.WIDTH-45);
 			rand1 = false;
 		}
 		}
 		else if (eagle.thirdeagle == 2 && rand2) {
 			if (eggdrop2+1 == eagle.x || eggdrop2-1 == eagle.x || eggdrop2+2 == eagle.x || eggdrop2-2 == eagle.x || eggdrop2 == eagle.x) {
-				egg = new Egg(eagle.x,90,50,50);
+				egg = new Egg(eagle.x,90,50,50, mario.x);
 				eggdrop2 = new Random().nextInt(ApplesofDeath.WIDTH-45);
 				rand2 = false;
 			}
 			}
 		else if (eagle.thirdeagle == 3 && rand3) {
 			if (eggdrop3+1 == eagle.x || eggdrop3-1 == eagle.x || eggdrop3+2 == eagle.x || eggdrop3-2 == eagle.x || eggdrop3 == eagle.x) {
-				egg = new Egg(eagle.x,90,50,50);
+				egg = new Egg(eagle.x,90,50,50, mario.x);
 				eggdrop3 = new Random().nextInt(ApplesofDeath.WIDTH-45);
 				rand3 = false;
 			}
@@ -83,7 +83,7 @@ public class ObjectManager implements ActionListener{
 				a.isActive = false;
 				eagle.x = -6000;
 				eagle.update();
-				egg = new Egg(-100,80,50,50);
+				egg = new Egg(-100,80,50,50, mario.x);
 				egg.update();
 				freeze = true;
 				Timer.start();
