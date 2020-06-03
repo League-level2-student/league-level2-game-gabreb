@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer frameDraw;
 	Timer symphony = new Timer(398000,this);
 	Player mario = new Player(402, 524, 50, 50);
-	Egg egg = new Egg(-100,80,50,50, mario.x);
+	Egg egg = new Egg(-100,80,50,50, 0);
 	Eagle eagle = new Eagle(-2400,40,90,90);
 	ObjectManager manager = new ObjectManager(mario, eagle, egg);
 	public static BufferedImage image;
@@ -92,14 +92,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (manager.reset) {
 			currentState = END;
 			mario = new Player(402, 524, 50, 50);
-			egg = new Egg(-100,80,50,50,mario.x);
+			egg = new Egg(-100,80,50,50,0);
 			eagle = new Eagle(-2400,50,90,90);
 			manager = new ObjectManager(mario, eagle, egg); 
 		}
 		if (manager.eggreset) {
 			currentState = MENU;
 			mario = new Player(402, 524, 50, 50);
-			egg = new Egg(-100,80,50,50,mario.x);
+			egg = new Egg(-100,80,50,50,0);
 			eagle = new Eagle(-2400,50,90,90);
 			manager = new ObjectManager(mario, eagle, egg); 
 		}
