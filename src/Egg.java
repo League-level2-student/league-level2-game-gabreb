@@ -15,6 +15,9 @@ public class Egg extends GameObject {
 		super(x, y, width, height);
 		this.targetx = targetx;
 		mariomove = (targetx-x)/145;
+		if (targetx == 1000) {
+			mariomove = 0;
+		}
 		speed = 3;
 		if (needImage) {
 			loadImage("Egg.png");
