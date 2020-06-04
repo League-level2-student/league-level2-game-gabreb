@@ -10,7 +10,7 @@ public class Egg extends GameObject {
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
 	int targetx;
-	double mariomove;
+	int mariomove;
 	Egg(int x, int y, int width, int height, int targetx) {
 		super(x, y, width, height);
 		this.targetx = targetx;
@@ -18,6 +18,7 @@ public class Egg extends GameObject {
 		if (targetx == 1000) {
 			mariomove = 0;
 		}
+		
 		speed = 3;
 		if (needImage) {
 			loadImage("Egg.png");
@@ -26,8 +27,8 @@ public class Egg extends GameObject {
 
 	void update() {
 		y += speed;
-		System.out.println(mariomove);
 		x+=mariomove;
+		super.update();
 	}
 
 	void draw(Graphics g) {

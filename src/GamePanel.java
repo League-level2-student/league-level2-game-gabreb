@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer frameDraw;
 	Timer symphony = new Timer(398000,this);
 	Player mario = new Player(402, 524, 50, 50);
-	Egg egg = new Egg(-100,80,50,50, 0);
+	Egg egg = new Egg(-100,80,50,50,1000);
 	Eagle eagle = new Eagle(-2400,40,90,90);
 	ObjectManager manager = new ObjectManager(mario, eagle, egg);
 	public static BufferedImage image;
@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN,20);
 		frameDraw = new Timer(1000 / 60, this);
-		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 	
@@ -65,7 +65,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			drawGameState(g);
 			}
 			else {
-				
 				Sky.draw(g);
 				orchard.draw(g);
 				SplatEgg.draw(g);
@@ -92,14 +91,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (manager.reset) {
 			currentState = END;
 			mario = new Player(402, 524, 50, 50);
-			egg = new Egg(-100,80,50,50,0);
+			egg = new Egg(-100,80,50,50,1000);
 			eagle = new Eagle(-2400,50,90,90);
 			manager = new ObjectManager(mario, eagle, egg); 
 		}
 		if (manager.eggreset) {
 			currentState = MENU;
 			mario = new Player(402, 524, 50, 50);
-			egg = new Egg(-100,80,50,50,0);
+			egg = new Egg(-100,80,50,50,1000);
 			eagle = new Eagle(-2400,50,90,90);
 			manager = new ObjectManager(mario, eagle, egg); 
 		}
@@ -175,7 +174,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					alienSpawn.stop();
 					mario = new Player(402, 524, 50, 50);
 					eagle = new Eagle(-2400,50,90,90);
-					egg = new Egg(-100,80,50,50,mario.x);
+					egg = new Egg(-100,80,50,50,1000);
 					manager = new ObjectManager(mario, eagle, egg); 
 				}
 			}

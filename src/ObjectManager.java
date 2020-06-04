@@ -83,7 +83,7 @@ public class ObjectManager implements ActionListener{
 				a.isActive = false;
 				eagle.x = -6000;
 				eagle.update();
-				egg = new Egg(-100,80,50,50, mario.x);
+				egg = new Egg(-100,80,50,50, 1000);
 				egg.update();
 				freeze = true;
 				Timer.start();
@@ -105,7 +105,7 @@ public class ObjectManager implements ActionListener{
 	}
 
 	void draw(Graphics g) {
-		if (egg.collisionBox.intersects(mario.collisionBox)&& intersects) {
+		if (mario.collisionBox.intersects(egg.collisionBox)&& intersects) {
 			Splat.play(Audio.PLAY_ENTIRE_SONG);
 			DidEggSplat = true;
 			eagle.thirdeagle = 4;
@@ -166,4 +166,5 @@ public class ObjectManager implements ActionListener{
 			}
 		}
 	}
+	
 }
