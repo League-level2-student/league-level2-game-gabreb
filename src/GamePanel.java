@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	ObjectManager manager = new ObjectManager(mario, eagle, egg);
 	public static BufferedImage image;
 	public static BufferedImage sky;
+	Timer nextStage1 = new Timer(1700,this);
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
 	Timer alienSpawn;
@@ -49,7 +50,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN,20);
 		frameDraw = new Timer(1000 / 60, this);
-		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 	
@@ -105,6 +106,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (manager.freeze) {
 			mario.left = false;
 			mario.right = false;
+		}
+		if (manager.score == 75) {
+			currentState = 3;
 		}
 	}
 

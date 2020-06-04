@@ -47,7 +47,7 @@ public class ObjectManager implements ActionListener{
 	void addAlien() {
 		if (diedtoegg) {
 		}
-		else if (numberofApples <= 75) {
+		else if (numberofApples < 75) {
 		numberofApples += 1;
 		Alien.add(new Apple(randy.nextInt(ApplesofDeath.WIDTH-45), 200, 60, 35));
 		}
