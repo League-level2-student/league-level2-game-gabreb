@@ -41,7 +41,7 @@ public class Eagle extends GameObject {
 		}
 		else {
 		if (x >= -375 && soundboolean == true) {
-			eagleSound.play(Audio.PLAY_ENTIRE_SONG);
+			//eagleSound.play(Audio.PLAY_ENTIRE_SONG);
 			soundboolean = false;
 		}
 		if (x>=860) {
