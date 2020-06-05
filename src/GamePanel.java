@@ -31,7 +31,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer symphony = new Timer(398000, this);
 	Timer forlevel2 = new Timer(700,this);
 	boolean fl2 = true;
-	boolean fl2sm = true;
+	boolean fl2sm = false;
+	boolean eaglelev2 = false;
 	Timer forlevel2secondmessage = new Timer(100,this);
 	Player mario = new Player(402, 524, 50, 50);
 	Egg egg = new Egg(-100, 80, 50, 50, 1000);
@@ -86,7 +87,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == LEVEL2) {
 			forlevel2.start();
 			drawLevel2State(g);
-			
 		}
 		else if (currentState==END) {
 			
@@ -127,13 +127,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void updateLevel2State() {
 		mario.left = false;
 		mario.right = false;
-		mario = new Player(402, 524, 50, 50);
+		
 		//code bellow makes apples stopping spawning
 		manager.diedtoegg = true;
 		manager.Alien = new ArrayList<Apple>();
-		eagle.speed = 10;
+	
+		if (eaglelev2) {
+			eagle.speed = 10;
+		}
+		else {
+		eagle.speed = 0;
+		}
 		eagle.update();
-		manager = new ObjectManager(mario, eagle, egg);
+	
+		
 			
 	}
 	void drawMenuState(Graphics g) {
@@ -181,14 +188,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getSource() == symphony) {
 			BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		}
-		if (e.getSource() == forlevel2&&fl2) {
+		if (e.getSource() == forlevel2&&fl2&&currentState==LEVEL2) {
 			JOptionPane.showMessageDialog(null, "Lucky punk, that was the easy part! HAHAHAHAH!");
 			forlevel2secondmessage.start();
 			fl2 = false;
+			fl2sm = true;
 		}
-		if (e.getSource()==forlevel2secondmessage&&fl2sm) {
-			JOptionPane.showMessageDialog(null, "Now shoot the bird!");
+		if (e.getSource()==forlevel2secondmessage&&fl2sm&&currentState==LEVEL2) {
+			JOptionPane.showMessageDialog(null, "Now shoot the dam bird!");
 			fl2sm = false;
+			eaglelev2 = true;
 		}
 	}
 
@@ -207,14 +216,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
 				currentState = MENU;
+				fl2 = true;
+				eaglelev2 = false;
 			} else {
 				currentState++;
 				if (currentState == GAME) {
 					end234 = false;
 					startGame();
 				} else if (currentState == LEVEL2) {
-					//fl2 = true;
-					//fl2sm = true;
+					eagle = new Eagle(-1800, 40, 60, 60);
+					mario = new Player(402, 524, 50, 50);
+					manager = new ObjectManager(mario, eagle, egg);
 				}
 				else if (currentState == END) {
 					alienSpawn.stop();
