@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
 		frameDraw = new Timer(1000 / 60, this);
-		// BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 
@@ -121,7 +121,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			mario.right = false;
 		}
 		if (manager.score == 75) {
-			currentState = 3;
+			currentState = 2;
 		}
 	}
 	void updateLevel2State() {
@@ -133,7 +133,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		manager.Alien = new ArrayList<Apple>();
 	
 		if (eaglelev2) {
-			eagle.speed = 10;
+			eagle.speed = 8;
 		}
 		else {
 		eagle.speed = 0;
@@ -224,7 +224,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					end234 = false;
 					startGame();
 				} else if (currentState == LEVEL2) {
-					eagle = new Eagle(-1800, 40, 60, 60);
+					eagle = new Eagle(-1500, 40, 70, 70);
 					mario = new Player(402, 524, 50, 50);
 					manager = new ObjectManager(mario, eagle, egg);
 				}
