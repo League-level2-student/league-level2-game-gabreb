@@ -7,7 +7,7 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-public class ObjectManager implements ActionListener{
+public class ObjectManager implements ActionListener {
 	Player mario;
 	Eagle eagle;
 	Egg egg;
@@ -15,25 +15,27 @@ public class ObjectManager implements ActionListener{
 	ArrayList<Apple> Alien = new ArrayList<Apple>();
 	Random randy = new Random();
 	static int score = 0;
-	Timer Timer = new Timer(6000,this);
-	Timer SplatTimer = new Timer(1700,this);
+	Timer Timer = new Timer(6000, this);
+	Timer SplatTimer = new Timer(1700, this);
 	boolean eggreset = false;
 	boolean intersects = true;
 	public boolean reset = false;
 	public boolean freeze = false;
 	int numberofApples = 0;
-	int eggdrop = new Random().nextInt(ApplesofDeath.WIDTH-45);
-	int eggdrop2 =  new Random().nextInt(ApplesofDeath.WIDTH-45);
-	int eggdrop3 = new Random().nextInt(ApplesofDeath.WIDTH-45);
+	int eggdrop = new Random().nextInt(ApplesofDeath.WIDTH - 45);
+	int eggdrop2 = new Random().nextInt(ApplesofDeath.WIDTH - 45);
+	int eggdrop3 = new Random().nextInt(ApplesofDeath.WIDTH - 45);
 	boolean rand1 = true;
 	boolean rand2 = true;
 	boolean rand3 = true;
 	boolean DidEggSplat = false;
 	boolean diedtoegg = false;
 	Audio Splat = new Audio("Splat Sound Effect copy.mp3");
+
 	static int getScore() {
 		return score;
 	}
+
 	ObjectManager(Player rocket, Eagle eagle, Egg egg) {
 		this.mario = rocket;
 		this.eagle = eagle;
@@ -46,36 +48,36 @@ public class ObjectManager implements ActionListener{
 
 	void addAlien() {
 		if (diedtoegg) {
-		}
-		else if (numberofApples < 75) {
-		numberofApples += 1;
-		Alien.add(new Apple(randy.nextInt(ApplesofDeath.WIDTH-45), 200, 60, 35));
+		} else if (numberofApples < 75) {
+			numberofApples += 1;
+			Alien.add(new Apple(randy.nextInt(ApplesofDeath.WIDTH - 45), 200, 60, 35));
 		}
 	}
 
 	void update() {
 		mario.update();
 		if (eagle.thirdeagle == 1 && rand1) {
-		if (eggdrop+1 == eagle.x || eggdrop-1 == eagle.x || eggdrop+2 == eagle.x || eggdrop-2 == eagle.x || eggdrop == eagle.x) {
-			egg = new Egg(eagle.x,90,50,50, mario.x);
-			eggdrop = new Random().nextInt(ApplesofDeath.WIDTH-45);
-			rand1 = false;
-		}
-		}
-		else if (eagle.thirdeagle == 2 && rand2) {
-			if (eggdrop2+1 == eagle.x || eggdrop2-1 == eagle.x || eggdrop2+2 == eagle.x || eggdrop2-2 == eagle.x || eggdrop2 == eagle.x) {
-				egg = new Egg(eagle.x,90,50,50, mario.x);
-				eggdrop2 = new Random().nextInt(ApplesofDeath.WIDTH-45);
+			if (eggdrop + 1 == eagle.x || eggdrop - 1 == eagle.x || eggdrop + 2 == eagle.x || eggdrop - 2 == eagle.x
+					|| eggdrop == eagle.x) {
+				egg = new Egg(eagle.x, 90, 50, 50, mario.x);
+				eggdrop = new Random().nextInt(ApplesofDeath.WIDTH - 45);
+				rand1 = false;
+			}
+		} else if (eagle.thirdeagle == 2 && rand2) {
+			if (eggdrop2 + 1 == eagle.x || eggdrop2 - 1 == eagle.x || eggdrop2 + 2 == eagle.x || eggdrop2 - 2 == eagle.x
+					|| eggdrop2 == eagle.x) {
+				egg = new Egg(eagle.x, 90, 50, 50, mario.x);
+				eggdrop2 = new Random().nextInt(ApplesofDeath.WIDTH - 45);
 				rand2 = false;
 			}
-			}
-		else if (eagle.thirdeagle == 3 && rand3) {
-			if (eggdrop3+1 == eagle.x || eggdrop3-1 == eagle.x || eggdrop3+2 == eagle.x || eggdrop3-2 == eagle.x || eggdrop3 == eagle.x) {
-				egg = new Egg(eagle.x,90,50,50, mario.x);
-				eggdrop3 = new Random().nextInt(ApplesofDeath.WIDTH-45);
+		} else if (eagle.thirdeagle == 3 && rand3) {
+			if (eggdrop3 + 1 == eagle.x || eggdrop3 - 1 == eagle.x || eggdrop3 + 2 == eagle.x || eggdrop3 - 2 == eagle.x
+					|| eggdrop3 == eagle.x) {
+				egg = new Egg(eagle.x, 90, 50, 50, mario.x);
+				eggdrop3 = new Random().nextInt(ApplesofDeath.WIDTH - 45);
 				rand3 = false;
 			}
-			}
+		}
 		egg.update();
 		for (Apple a : Alien) {
 			a.update();
@@ -83,17 +85,18 @@ public class ObjectManager implements ActionListener{
 				a.isActive = false;
 				eagle.x = -6000;
 				eagle.update();
-				egg = new Egg(-100,80,50,50, 1000);
+				egg = new Egg(-100, 80, 50, 50, 1000);
 				egg.update();
 				freeze = true;
 				Timer.start();
 				Alien = new ArrayList<Apple>();
 				for (int i = 0; i < 35; i++) {
-					Alien.add(new Apple(mario.x,0-(i*29),60,35));
+					Alien.add(new Apple(mario.x, 0 - (i * 29), 60, 35));
 					Alien.get(i).speed = 5;
 				}
 			}
 		}
+		/// not being called in level 2
 		for (Projectile p : PJ) {
 			p.update();
 			if (p.y < 0) {
@@ -103,9 +106,10 @@ public class ObjectManager implements ActionListener{
 		checkCollision();
 		purgeObjects();
 	}
+	
 
 	void draw(Graphics g) {
-		if (mario.collisionBox.intersects(egg.collisionBox)&& intersects) {
+		if (mario.collisionBox.intersects(egg.collisionBox) && intersects) {
 			Splat.play(Audio.PLAY_ENTIRE_SONG);
 			DidEggSplat = true;
 			eagle.thirdeagle = 4;
@@ -114,17 +118,16 @@ public class ObjectManager implements ActionListener{
 			Alien = new ArrayList<Apple>();
 			intersects = false;
 			SplatTimer.start();
+		} else {
+			egg.draw(g);
+			for (Apple a : Alien) {
+				a.draw(g);
+			}
+			for (Projectile p : PJ) {
+				p.draw(g);
+			}
+			mario.draw(g);
 		}
-		else {
-		egg.draw(g);
-		mario.draw(g);
-		for (Apple a : Alien) {
-			a.draw(g);
-		}
-		for (Projectile p : PJ) {
-			p.draw(g);
-		}
-	}
 	}
 
 	void purgeObjects() {
@@ -143,16 +146,16 @@ public class ObjectManager implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (freeze == false) {
-		addAlien();
+			addAlien();
 		}
-		
-		if (e.getSource()==Timer) {
+
+		if (e.getSource() == Timer) {
 			reset = true;
 		}
-		if (e.getSource()==SplatTimer&& !intersects) {
-		JOptionPane.showMessageDialog(null, "You died to a bird's excrement! HAHAHAHAH!");
-		intersects = true;
-		eggreset = true;
+		if (e.getSource() == SplatTimer && !intersects) {
+			JOptionPane.showMessageDialog(null, "You died to a bird's excrement! HAHAHAHAH!");
+			intersects = true;
+			eggreset = true;
 		}
 	}
 
@@ -161,10 +164,10 @@ public class ObjectManager implements ActionListener{
 			if (mario.collisionBox.intersects(Alien.get(i).collisionBox)) {
 				Alien.get(i).isActive = false;
 				if (freeze == false) {
-				score+=1;
+					score += 1;
 				}
 			}
 		}
 	}
-	
+
 }

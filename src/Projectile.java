@@ -12,7 +12,7 @@ public class Projectile extends GameObject {
 		super(x, y, width, height);
 		speed = 10;
 		if (needImage) {
-		    loadImage ("bullet.png");
+		    loadImage ("Anchor.png");
 		}
 	}
 

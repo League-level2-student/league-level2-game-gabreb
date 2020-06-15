@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
 		frameDraw = new Timer(1000 / 60, this);
-		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 
@@ -101,7 +101,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// makes the apples and mario move
 		manager.update();
 		// this moves the eagle
-		eagle.update();
+		eagle.update(GAME);
 		if (manager.reset) {
 			end234 = true;
 			mario = new Player(402, 524, 50, 50);
@@ -121,6 +121,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			mario.right = false;
 		}
 		if (manager.score == 75) {
+			eagle = new Eagle(-1400, 40, 80, 80);
+			mario = new Player(402, 524, 50, 50);
+			manager = new ObjectManager(mario, eagle, egg);
 			currentState = 2;
 		}
 	}
@@ -138,7 +141,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		else {
 		eagle.speed = 0;
 		}
-		eagle.update();
+		eagle.update(LEVEL2);
 	
 		
 			
@@ -212,7 +215,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (currentState == MENU && e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null, "No instructions");
 		}
-
+		if (currentState == LEVEL2 && e.getKeyCode() == KeyEvent.VK_SPACE) {
+			manager.addProjectile(mario.getProjectile());
+		}
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
 				currentState = MENU;
@@ -224,7 +229,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					end234 = false;
 					startGame();
 				} else if (currentState == LEVEL2) {
-					eagle = new Eagle(-1500, 40, 70, 70);
+					eagle = new Eagle(-1400, 40, 80, 80);
 					mario = new Player(402, 524, 50, 50);
 					manager = new ObjectManager(mario, eagle, egg);
 				}

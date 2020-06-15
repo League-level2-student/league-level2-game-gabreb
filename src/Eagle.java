@@ -34,14 +34,16 @@ public class Eagle extends GameObject {
 			g.drawImage(image, x, y, width, height, null);
 		} 
 	}
-	void update() {
+	void update(int level) {
 		x+=speed;
-		if (thirdeagle > 3) {
+		if (thirdeagle > 3 && level == 1) {
 			x = -1000000;
 		}
 		else {
 		if (x >= -375 && soundboolean == true) {
+			if (level == 1) {
 			eagleSound.play(Audio.PLAY_ENTIRE_SONG);
+			}
 			soundboolean = false;
 		}
 		if (x>=860) {
@@ -56,6 +58,6 @@ public class Eagle extends GameObject {
 		}
 		
 		super.update();
-		}
+	}
 	}
 }
