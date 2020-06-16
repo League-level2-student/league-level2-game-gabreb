@@ -61,7 +61,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
 		titleFontTrident = new Font("Arial", Font.PLAIN, 23);
 		frameDraw = new Timer(1000 / 60, this);
-		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 
@@ -73,6 +73,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			drawMenuState(g);
 			mario.isActive = true;
 			numtrident = 5; 
+			Eagle.changecharacter = false;
+			manager.tocounterfortheend = false;
 		} else if (currentState == GAME) {
 			if (end234) {
 				drawGameState(g);
@@ -171,12 +173,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawLevel2State(Graphics g) {
 		Sky.draw(g);
 		orchard.draw(g);
-		manager.draw(g);
-		eagle.draw(g);
+		trident.draw(g);
+		//eagle.draw(g);
 		g.setFont(titleFontTrident);
 		g.setColor(Color.RED);
 		g.drawString("" + numtrident, 817, 40);
-		trident.draw(g);
+		manager.draw(g);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -231,6 +233,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				fl2 = true;
 				eaglelev2 = false;
 				numtrident = 5;
+				Eagle.changecharacter = false;
+				manager.tocounterfortheend = false;
 			} else {
 				currentState++;
 				if (currentState == GAME) {

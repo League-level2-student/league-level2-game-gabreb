@@ -6,8 +6,10 @@ import javax.imageio.ImageIO;
 
 public class Eagle extends GameObject {
 	public static BufferedImage image;
+	public static BufferedImage turkey;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
+	public static boolean changecharacter = false;
 	int downwards;
 	Audio eagleSound = new Audio("Eagle.mp3");
 	boolean soundboolean = true;
@@ -17,13 +19,14 @@ public class Eagle extends GameObject {
 		speed = 3;
 		downwards = 0;
 		if (needImage) {
-			loadImage("Unknown.png");
+			loadImage();
 		}
 	}
-	void loadImage(String imageFile) {
+	void loadImage() {
 		if (needImage) {
 			try {
-				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				image = ImageIO.read(this.getClass().getResourceAsStream("Unknown.png"));
+				turkey = ImageIO.read(this.getClass().getResourceAsStream("turkey.png"));
 				gotImage = true;
 			} catch (Exception e) {
 
@@ -33,7 +36,13 @@ public class Eagle extends GameObject {
 	}
 	void draw(Graphics g) {
 		if (gotImage) {
+			if (y > 200) {
+				g.drawImage(turkey,x,y,width,height,null);
+				changecharacter = true;
+			}
+			else {
 			g.drawImage(image, x, y, width, height, null);
+			}
 		} 
 	}
 	void update(int level) {

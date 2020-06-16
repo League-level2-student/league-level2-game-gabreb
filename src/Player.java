@@ -6,6 +6,9 @@ import javax.imageio.ImageIO;
 
 public class Player extends GameObject {
 	public static BufferedImage image;
+	public static BufferedImage evilgene;
+	public static BufferedImage fork;
+	public static BufferedImage knife;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
 	public boolean up = false;
@@ -17,17 +20,19 @@ public class Player extends GameObject {
 		super(x, y, width, height);
 		speed = 12;
 		if (needImage) {
-			loadImage("Mario.png");
+			loadImage();
 		}
 	}
 
 	void draw(Graphics g) {
 		if (gotImage) {
-			g.drawImage(image, x, y, width, height, null);
-		} else {
-			g.setColor(Color.BLUE);
-			g.fillRect(x, y, width, height);
-		}
+			if (Eagle.changecharacter) {
+				g.drawImage(evilgene, x-10, y, width+25, height+25, null);
+			}
+			else {
+				g.drawImage(image, x, y, width, height, null);
+			}
+		} 
 	}
 	
 	public void right() {
@@ -43,10 +48,11 @@ public class Player extends GameObject {
 	}
 
 
-	void loadImage(String imageFile) {
+	void loadImage() {
 		if (needImage) {
 			try {
-				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				image = ImageIO.read(this.getClass().getResourceAsStream("Mario.png"));
+				evilgene = ImageIO.read(this.getClass().getResourceAsStream("evilgene.png"));
 				gotImage = true;
 			} catch (Exception e) {
 
