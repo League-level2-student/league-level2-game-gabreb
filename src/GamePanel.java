@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font titleFontEnter;
 	Font titleFontScore;
+	Font titleFontTrident;
 	Timer frameDraw;
 	Timer symphony = new Timer(398000, this);
 	Timer forlevel2 = new Timer(700,this);
@@ -49,14 +50,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static boolean end234 = false;
 	static Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
 	Timer oneforcurrentstate = new Timer(1, this);
-	int eggdrop = new Random().nextInt(ApplesofDeath.WIDTH - 45);
+	int numtrident = 5;
 	DrawSplatEgg SplatEgg = new DrawSplatEgg();
 	SkyDraw Sky = new SkyDraw();
+	TridentDraw trident = new TridentDraw();
 
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
+		titleFontTrident = new Font("Arial", Font.PLAIN, 23);
 		frameDraw = new Timer(1000 / 60, this);
 		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
@@ -69,6 +72,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (currentState == MENU) {
 			drawMenuState(g);
 			mario.isActive = true;
+			numtrident = 5; 
 		} else if (currentState == GAME) {
 			if (end234) {
 				drawGameState(g);
@@ -169,6 +173,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		orchard.draw(g);
 		manager.draw(g);
 		eagle.draw(g);
+		g.setFont(titleFontTrident);
+		g.setColor(Color.RED);
+		g.drawString("" + numtrident, 817, 40);
+		trident.draw(g);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -212,8 +220,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (currentState == MENU && e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null, "No instructions");
 		}
-		if (currentState == LEVEL2 && e.getKeyCode() == KeyEvent.VK_SPACE && manager.oneatatime) {
+		if (currentState == LEVEL2 && e.getKeyCode() == KeyEvent.VK_SPACE && manager.oneatatime && numtrident > 0) {
 			manager.addProjectile(mario.getProjectile());
+			numtrident -= 1;
 			manager.oneatatime = false;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -221,6 +230,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				currentState = MENU;
 				fl2 = true;
 				eaglelev2 = false;
+				numtrident = 5;
 			} else {
 				currentState++;
 				if (currentState == GAME) {

@@ -183,6 +183,8 @@ public class ObjectManager implements ActionListener {
 		for (int i = 0; i < PJ.size(); i++) {
 			if (eagle.collisionBox.intersects(PJ.get(i).collisionBox)) {
 				PJ.get(i).speed = -3;
+				eagle.x = PJ.get(i).x;
+				eagle.y = PJ.get(i).y-10;
 				eagle.speed = 0;
 				eagle.downwards = 3;
 				eagleTRUE = false;
