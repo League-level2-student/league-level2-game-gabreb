@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
 		frameDraw = new Timer(1000 / 60, this);
-		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 
@@ -125,26 +125,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			mario = new Player(402, 524, 50, 50);
 			manager = new ObjectManager(mario, eagle, egg);
 			currentState = 2;
+			manager.updateforLevel2 = true;
 		}
 	}
 	void updateLevel2State() {
 		mario.left = false;
 		mario.right = false;
-		
-		//code bellow makes apples stopping spawning
 		manager.diedtoegg = true;
 		manager.Alien = new ArrayList<Apple>();
-	
-		if (eaglelev2) {
+
+		if (eaglelev2&&manager.eagleTRUE) {
 			eagle.speed = 8;
 		}
-		else {
+		else if (manager.eagleTRUE) {
 		eagle.speed = 0;
 		}
 		eagle.update(LEVEL2);
-	
-		
-			
+		manager.update();
 	}
 	void drawMenuState(Graphics g) {
 		flames.draw(g);
@@ -215,8 +212,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (currentState == MENU && e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null, "No instructions");
 		}
-		if (currentState == LEVEL2 && e.getKeyCode() == KeyEvent.VK_SPACE) {
+		if (currentState == LEVEL2 && e.getKeyCode() == KeyEvent.VK_SPACE && manager.oneatatime) {
 			manager.addProjectile(mario.getProjectile());
+			manager.oneatatime = false;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
@@ -232,6 +230,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					eagle = new Eagle(-1400, 40, 80, 80);
 					mario = new Player(402, 524, 50, 50);
 					manager = new ObjectManager(mario, eagle, egg);
+					manager.updateforLevel2 = true;
 				}
 				else if (currentState == END) {
 					alienSpawn.stop();
@@ -239,6 +238,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					eagle = new Eagle(-2400, 50, 90, 90);
 					egg = new Egg(-100, 80, 50, 50, 1000);
 					manager = new ObjectManager(mario, eagle, egg);
+					manager.updateforLevel2 = false;
 				}
 			}
 		}

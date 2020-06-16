@@ -19,8 +19,11 @@ public class ObjectManager implements ActionListener {
 	Timer SplatTimer = new Timer(1700, this);
 	boolean eggreset = false;
 	boolean intersects = true;
+	boolean oneatatime = true;
 	public boolean reset = false;
 	public boolean freeze = false;
+	boolean updateforLevel2 = false;
+	boolean eagleTRUE = true;
 	int numberofApples = 0;
 	int eggdrop = new Random().nextInt(ApplesofDeath.WIDTH - 45);
 	int eggdrop2 = new Random().nextInt(ApplesofDeath.WIDTH - 45);
@@ -55,6 +58,19 @@ public class ObjectManager implements ActionListener {
 	}
 
 	void update() {
+	//	updateforLevel2 = not true always;
+		if (updateforLevel2) {
+			for (Projectile p : PJ) {
+				p.update();
+				if (p.y < -75) {
+					oneatatime = true;
+					PJ = new ArrayList<Projectile>();
+				}
+			}
+			checkCollision();
+			purgeObjects();
+		}
+		else {
 		mario.update();
 		if (eagle.thirdeagle == 1 && rand1) {
 			if (eggdrop + 1 == eagle.x || eggdrop - 1 == eagle.x || eggdrop + 2 == eagle.x || eggdrop - 2 == eagle.x
@@ -96,15 +112,11 @@ public class ObjectManager implements ActionListener {
 				}
 			}
 		}
-		/// not being called in level 2
-		for (Projectile p : PJ) {
-			p.update();
-			if (p.y < 0) {
-				p.isActive = false;
-			}
-		}
 		checkCollision();
 		purgeObjects();
+		/// not being called in level 2
+		
+		}
 	}
 	
 
@@ -166,6 +178,14 @@ public class ObjectManager implements ActionListener {
 				if (freeze == false) {
 					score += 1;
 				}
+			}
+		}
+		for (int i = 0; i < PJ.size(); i++) {
+			if (eagle.collisionBox.intersects(PJ.get(i).collisionBox)) {
+				PJ.get(i).speed = -3;
+				eagle.speed = 0;
+				eagle.downwards = 3;
+				eagleTRUE = false;
 			}
 		}
 	}

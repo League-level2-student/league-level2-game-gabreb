@@ -10,7 +10,7 @@ public class Projectile extends GameObject {
 	public static boolean gotImage = false;	
 	Projectile(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed = 10;
+		speed = 7;
 		if (needImage) {
 		    loadImage ("Anchor.png");
 		}
