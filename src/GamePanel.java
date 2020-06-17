@@ -33,7 +33,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer forlevel2 = new Timer(700,this);
 	boolean fl2 = true;
 	boolean fl2sm = false;
+	boolean anotherboolean = true;
 	boolean eaglelev2 = false;
+	Audio Ohnononono = new Audio("ohno.mp3");
 	Timer forlevel2secondmessage = new Timer(100,this);
 	Player mario = new Player(402, 524, 50, 50);
 	Egg egg = new Egg(-100, 80, 50, 50, 1000);
@@ -50,7 +52,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static boolean end234 = false;
 	static Audio BeethovensFifthAmazingSymphony = new Audio("Beethovens5th.mp3");
 	Timer oneforcurrentstate = new Timer(1, this);
-	int numtrident = 5;
+	static int numtrident = 5;
 	DrawSplatEgg SplatEgg = new DrawSplatEgg();
 	SkyDraw Sky = new SkyDraw();
 	TridentDraw trident = new TridentDraw();
@@ -61,7 +63,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
 		titleFontTrident = new Font("Arial", Font.PLAIN, 23);
 		frameDraw = new Timer(1000 / 60, this);
-		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 
@@ -135,19 +137,47 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 	void updateLevel2State() {
+		if (anotherboolean) {
 		mario.left = false;
 		mario.right = false;
+		}
 		manager.diedtoegg = true;
 		manager.Alien = new ArrayList<Apple>();
-
-		if (eaglelev2&&manager.eagleTRUE) {
+		if (manager.torestart) {
+			currentState = MENU;
+			mario = new Player(402, 524, 50, 50);
+			eagle = new Eagle(-2400, 50, 90, 90);
+			egg = new Egg(-100, 80, 50, 50, 1000);
+			manager = new ObjectManager(mario, eagle, egg);
+			manager.updateforLevel2 = false;
+		}
+		if (manager.missedtridents&& anotherboolean) {
+			eagle.x = -100;
+			eagle.speed = 0;
+			anotherboolean = false;
+			Ohnononono.play(Audio.PLAY_ENTIRE_SONG);
+			mario.left = true;
+			mario.right = true;
+			JOptionPane.showMessageDialog(null, "");
+			JOptionPane.showMessageDialog(null, "You can run, but you can't hide!");
+			eagle = new Eagle(-100, 40, 90, 90);
+			eagle.speed = 4;
+		}
+		if (eaglelev2&&manager.eagleTRUE&&anotherboolean) {
 			eagle.speed = 8;
 		}
-		else if (manager.eagleTRUE) {
+		else if (manager.eagleTRUE&&anotherboolean) {
 		eagle.speed = 0;
 		}
 		eagle.update(LEVEL2);
 		manager.update();
+		mario.update();
+		
+		///can't see eagle
+		if (!anotherboolean) {
+			System.out.println(eagle.x);
+			System.out.println(eagle.y);
+		}
 	}
 	void drawMenuState(Graphics g) {
 		flames.draw(g);
@@ -253,6 +283,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					egg = new Egg(-100, 80, 50, 50, 1000);
 					manager = new ObjectManager(mario, eagle, egg);
 					manager.updateforLevel2 = false;
+					
 				}
 			}
 		}

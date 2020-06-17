@@ -16,9 +16,13 @@ public class ObjectManager implements ActionListener {
 	Random randy = new Random();
 	static int score = 0;
 	Timer Timer = new Timer(6000, this);
+	Timer backtostart = new Timer(1,this);
 	Timer SplatTimer = new Timer(1700, this);
 	Timer fortheend = new Timer(1800,this);
+	boolean torestart = false;
+	boolean tomanyofthese = true;
 	boolean tocounterfortheend = false;
+	boolean missedtridents = false;
 	boolean eggreset = false;
 	boolean intersects = true;
 	boolean oneatatime = true;
@@ -61,13 +65,15 @@ public class ObjectManager implements ActionListener {
 	}
 
 	void update() {
-		// updateforLevel2 = not true always;
 		if (updateforLevel2) {
 			for (Projectile p : PJ) {
 				p.update();
 				if (p.y < -75) {
 					oneatatime = true;
 					PJ = new ArrayList<Projectile>();
+					if (GamePanel.numtrident == 0) {
+						missedtridents = true;
+						}
 				}
 			}
 			checkCollision();
@@ -173,7 +179,9 @@ public class ObjectManager implements ActionListener {
 		}
 		if (e.getSource() == fortheend && !tocounterfortheend) {
 			JOptionPane.showMessageDialog(null, "Congratulations! You have won! Press enter \nto restart or admire the scenery! Gaby Rebeiz");
+			backtostart.start();
 			tocounterfortheend = true;
+			torestart = true;
 		}
 	}
 
