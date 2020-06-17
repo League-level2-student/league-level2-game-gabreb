@@ -172,7 +172,7 @@ public class ObjectManager implements ActionListener {
 			eggreset = true;
 		}
 		if (e.getSource() == fortheend && !tocounterfortheend) {
-			JOptionPane.showMessageDialog(null, "Congratulations! You have won! Press enter to restart\n or admire the scenery! Yours truly, Gaby Rebeiz");
+			JOptionPane.showMessageDialog(null, "Congratulations! You have won! Press enter \nto restart or admire the scenery! Gaby Rebeiz");
 			tocounterfortheend = true;
 		}
 	}

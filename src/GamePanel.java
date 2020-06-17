@@ -61,7 +61,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
 		titleFontTrident = new Font("Arial", Font.PLAIN, 23);
 		frameDraw = new Timer(1000 / 60, this);
-		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 
