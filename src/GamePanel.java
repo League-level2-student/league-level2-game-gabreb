@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	boolean fl2 = true;
 	boolean fl2sm = false;
 	boolean anotherboolean = true;
+	boolean todrawaneagle = false;
 	boolean eaglelev2 = false;
 	Audio Ohnononono = new Audio("ohno.mp3");
 	Timer forlevel2secondmessage = new Timer(100,this);
@@ -158,10 +159,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			Ohnononono.play(Audio.PLAY_ENTIRE_SONG);
 			mario.left = true;
 			mario.right = true;
-			JOptionPane.showMessageDialog(null, "");
+			JOptionPane.showMessageDialog(null, "Oh no no no no no no no no");
 			JOptionPane.showMessageDialog(null, "You can run, but you can't hide!");
 			eagle = new Eagle(-100, 40, 90, 90);
 			eagle.speed = 4;
+			todrawaneagle = true;
+			
 		}
 		if (eaglelev2&&manager.eagleTRUE&&anotherboolean) {
 			eagle.speed = 8;
@@ -209,6 +212,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.RED);
 		g.drawString("" + numtrident, 817, 40);
 		manager.draw(g);
+		if (todrawaneagle) {
+			eagle.draw(g);
+			if (eagle.x >= 0 && eagle.x <= 840) {
+				
+			}
+		}
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
