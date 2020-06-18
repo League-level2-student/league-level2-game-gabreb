@@ -20,7 +20,7 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int MENU = 0;
 	final int GAME = 1;
-	final int LEVEL2 = 2; 
+	final int LEVEL2 = 2;
 	final int END = 3;
 	boolean test = true;
 	int currentState = MENU;
@@ -30,17 +30,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFontTrident;
 	Timer frameDraw;
 	Timer symphony = new Timer(398000, this);
-	Timer forlevel2 = new Timer(700,this);
+	Timer forlevel2 = new Timer(700, this);
 	boolean fl2 = true;
 	boolean fl2sm = false;
 	boolean anotherboolean = true;
-	boolean todrawaneagle = false;
+	static boolean todrawaneagle = false;
 	boolean eaglelev2 = false;
 	Audio Ohnononono = new Audio("ohno.mp3");
-	Timer forlevel2secondmessage = new Timer(100,this);
+	Timer forlevel2secondmessage = new Timer(100, this);
 	Player mario = new Player(402, 524, 50, 50);
 	Egg egg = new Egg(-100, 80, 50, 50, 1000);
+	ArrayList<Egg> bombs = new ArrayList<Egg>();
 	Eagle eagle = new Eagle(-2400, 40, 90, 90);
+	static boolean changetobomb = false;
 	ObjectManager manager = new ObjectManager(mario, eagle, egg);
 	public static BufferedImage image;
 	public static BufferedImage sky;
@@ -64,20 +66,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
 		titleFontTrident = new Font("Arial", Font.PLAIN, 23);
 		frameDraw = new Timer(1000 / 60, this);
-		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		// BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 
 	}
 
+///my eagle comes early the second and third times
 	@Override
 	public void paintComponent(Graphics g) {
 		if (currentState == MENU) {
 			drawMenuState(g);
 			mario.isActive = true;
-			numtrident = 5; 
+			numtrident = 5;
 			Eagle.changecharacter = false;
 			manager.tocounterfortheend = false;
+			anotherboolean = true;
+			changetobomb = false;
 		} else if (currentState == GAME) {
 			if (end234) {
 				drawGameState(g);
@@ -96,9 +101,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == LEVEL2) {
 			forlevel2.start();
 			drawLevel2State(g);
-		}
-		else if (currentState==END) {
-			
+		} else if (currentState == END) {
+
 		}
 
 	}
@@ -137,10 +141,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			manager.updateforLevel2 = true;
 		}
 	}
+
 	void updateLevel2State() {
 		if (anotherboolean) {
-		mario.left = false;
-		mario.right = false;
+			mario.left = false;
+			mario.right = false;
 		}
 		manager.diedtoegg = true;
 		manager.Alien = new ArrayList<Apple>();
@@ -151,37 +156,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			egg = new Egg(-100, 80, 50, 50, 1000);
 			manager = new ObjectManager(mario, eagle, egg);
 			manager.updateforLevel2 = false;
+			bombs = new ArrayList<Egg>();
 		}
-		if (manager.missedtridents&& anotherboolean) {
-			eagle.x = -100;
+		if (manager.missedtridents && anotherboolean) {
+			eagle.x = -400;
 			eagle.speed = 0;
 			anotherboolean = false;
-			Ohnononono.play(Audio.PLAY_ENTIRE_SONG);
+			// Ohnononono.play(Audio.PLAY_ENTIRE_SONG);
 			mario.left = true;
 			mario.right = true;
 			JOptionPane.showMessageDialog(null, "Oh no no no no no no no no");
 			JOptionPane.showMessageDialog(null, "You can run, but you can't hide!");
-			eagle = new Eagle(-100, 40, 90, 90);
 			eagle.speed = 4;
 			todrawaneagle = true;
-			
 		}
-		if (eaglelev2&&manager.eagleTRUE&&anotherboolean) {
+		if (eaglelev2 && manager.eagleTRUE && anotherboolean) {
 			eagle.speed = 8;
-		}
-		else if (manager.eagleTRUE&&anotherboolean) {
-		eagle.speed = 0;
+		} else if (manager.eagleTRUE && anotherboolean) {
+			eagle.speed = 0;
 		}
 		eagle.update(LEVEL2);
 		manager.update();
 		mario.update();
-		
-		///can't see eagle
-		if (!anotherboolean) {
-			System.out.println(eagle.x);
-			System.out.println(eagle.y);
-		}
+		System.out.println(eagle.x);
+
 	}
+
 	void drawMenuState(Graphics g) {
 		flames.draw(g);
 		g.setFont(titleFont);
@@ -207,18 +207,33 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		Sky.draw(g);
 		orchard.draw(g);
 		trident.draw(g);
-		//eagle.draw(g);
+		// eagle.draw(g);
 		g.setFont(titleFontTrident);
 		g.setColor(Color.RED);
 		g.drawString("" + numtrident, 817, 40);
 		manager.draw(g);
 		if (todrawaneagle) {
+			changetobomb = true;
 			eagle.draw(g);
-			if (eagle.x >= 0 && eagle.x <= 840) {
-				
+			eagle.speed = 8;
+			if (eagle.x >= -40 && eagle.x <= 840 && todrawaneagle) {
+				if (eagle.x % 10 == 0) {
+					Egg bomb = new Egg (eagle.x, 50, 70, 45, 1000);
+					bomb.speed = 2;
+					bombs.add(bomb);
+				}
+				if (eagle.x >= 830) {
+					todrawaneagle = false;
+					eagle.speed = 2;
+				}
 			}
 		}
+		for (Egg e : bombs) {
+			e.draw(g);
+			e.update();
+		}
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == oneforcurrentstate) {
@@ -230,20 +245,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			updateMenuState();
 		} else if (currentState == GAME) {
 			updateGameState();
-		}
-		else if (currentState == LEVEL2) {
+		} else if (currentState == LEVEL2) {
 			updateLevel2State();
 		}
 		if (e.getSource() == symphony) {
 			BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		}
-		if (e.getSource() == forlevel2&&fl2&&currentState==LEVEL2) {
+		if (e.getSource() == forlevel2 && fl2 && currentState == LEVEL2) {
 			JOptionPane.showMessageDialog(null, "Lucky punk, that was the easy part! HAHAHAHAH!");
 			forlevel2secondmessage.start();
 			fl2 = false;
 			fl2sm = true;
 		}
-		if (e.getSource()==forlevel2secondmessage&&fl2sm&&currentState==LEVEL2) {
+		if (e.getSource() == forlevel2secondmessage && fl2sm && currentState == LEVEL2) {
 			JOptionPane.showMessageDialog(null, "Now shoot the dam bird!");
 			fl2sm = false;
 			eaglelev2 = true;
@@ -272,8 +286,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				fl2 = true;
 				eaglelev2 = false;
 				numtrident = 5;
+				anotherboolean = true;
 				Eagle.changecharacter = false;
 				manager.tocounterfortheend = false;
+				changetobomb = false;
+				bombs = new ArrayList<Egg>();
 			} else {
 				currentState++;
 				if (currentState == GAME) {
@@ -284,15 +301,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					mario = new Player(402, 524, 50, 50);
 					manager = new ObjectManager(mario, eagle, egg);
 					manager.updateforLevel2 = true;
-				}
-				else if (currentState == END) {
+				} else if (currentState == END) {
 					alienSpawn.stop();
 					mario = new Player(402, 524, 50, 50);
 					eagle = new Eagle(-2400, 50, 90, 90);
 					egg = new Egg(-100, 80, 50, 50, 1000);
 					manager = new ObjectManager(mario, eagle, egg);
 					manager.updateforLevel2 = false;
-					
+
 				}
 			}
 		}

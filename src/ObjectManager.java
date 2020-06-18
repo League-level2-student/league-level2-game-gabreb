@@ -16,9 +16,10 @@ public class ObjectManager implements ActionListener {
 	Random randy = new Random();
 	static int score = 0;
 	Timer Timer = new Timer(6000, this);
-	Timer backtostart = new Timer(1,this);
+	Timer backtostart = new Timer(1, this);
 	Timer SplatTimer = new Timer(1700, this);
-	Timer fortheend = new Timer(1800,this);
+	Timer fortheend = new Timer(1800, this);
+	boolean birdkillb = false;
 	boolean torestart = false;
 	boolean tomanyofthese = true;
 	boolean tocounterfortheend = false;
@@ -41,6 +42,7 @@ public class ObjectManager implements ActionListener {
 	boolean DidEggSplat = false;
 	boolean diedtoegg = false;
 	Audio Splat = new Audio("Splat Sound Effect copy.mp3");
+	Audio birdkill = new Audio("angry bird.mp3");
 
 	static int getScore() {
 		return score;
@@ -73,7 +75,7 @@ public class ObjectManager implements ActionListener {
 					PJ = new ArrayList<Projectile>();
 					if (GamePanel.numtrident == 0) {
 						missedtridents = true;
-						}
+					}
 				}
 			}
 			checkCollision();
@@ -120,12 +122,11 @@ public class ObjectManager implements ActionListener {
 					}
 				}
 			}
+		}
 			checkCollision();
 			purgeObjects();
 			/// not being called in level 2
-
 		}
-	}
 
 	void draw(Graphics g) {
 		if (mario.collisionBox.intersects(egg.collisionBox) && intersects) {
@@ -138,7 +139,6 @@ public class ObjectManager implements ActionListener {
 			intersects = false;
 			SplatTimer.start();
 		} else {
-			egg.draw(g);
 			for (Apple a : Alien) {
 				a.draw(g);
 			}
@@ -178,7 +178,8 @@ public class ObjectManager implements ActionListener {
 			eggreset = true;
 		}
 		if (e.getSource() == fortheend && !tocounterfortheend) {
-			JOptionPane.showMessageDialog(null, "Congratulations! You have won! Press enter \nto restart or admire the scenery! Gaby Rebeiz");
+			JOptionPane.showMessageDialog(null,
+					"Congratulations! You have won! Press enter \nto restart or admire the scenery! Gaby Rebeiz");
 			backtostart.start();
 			tocounterfortheend = true;
 			torestart = true;
@@ -198,10 +199,14 @@ public class ObjectManager implements ActionListener {
 			for (int i = 0; i < PJ.size(); i++) {
 				if (eagle.collisionBox.intersects(PJ.get(i).collisionBox)) {
 					if (PJ.get(i).y < 500) {
-					PJ.get(i).speed = -3;
-					eagle.downwards = 3;
-					}
-					else {
+						if (!birdkillb) {
+							birdkillb = true;
+							birdkill.play(Audio.PLAY_ENTIRE_SONG);
+						}
+						PJ.get(i).speed = -3;
+						eagle.downwards = 3;
+						
+					} else {
 						PJ.get(i).speed = 0;
 						eagle.downwards = 0;
 						tostoptheham = true;

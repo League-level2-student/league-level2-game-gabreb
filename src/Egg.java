@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 public class Egg extends GameObject {
 	public static BufferedImage image;
+	public static BufferedImage bomb;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
 	int targetx;
@@ -21,7 +22,7 @@ public class Egg extends GameObject {
 		
 		speed = 3;
 		if (needImage) {
-			loadImage("Egg.png");
+			loadImage();
 		}
 	}
 
@@ -33,13 +34,20 @@ public class Egg extends GameObject {
 
 	void draw(Graphics g) {
 		if (gotImage) {
+			if (GamePanel.changetobomb) {
+				g.drawImage(bomb, x, y, width, height, null);
+			}
+			else {
 			g.drawImage(image, x, y, width, height, null);
+			}
 		}
 	}
-	void loadImage(String imageFile) {
+	void loadImage() {
 	    if (needImage) {
 	        try {
-	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+	            image = ImageIO.read(this.getClass().getResourceAsStream("Egg.png"));
+	            bomb = ImageIO.read(this.getClass().getResourceAsStream("bomb.png"));
+	            
 		    gotImage = true;
 	        } catch (Exception e) {
 	            
