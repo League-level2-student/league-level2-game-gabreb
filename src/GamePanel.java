@@ -61,6 +61,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	SkyDraw Sky = new SkyDraw();
 	TridentDraw trident = new TridentDraw();
 	Audio bombfreefall = new Audio("comedy_cartoon_falling_tone.mp3");
+	Audio bombblow = new Audio("bigboom.wav");
 
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
@@ -241,13 +242,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			}
 		}
-		for (Egg e : bombs) {
-			e.draw(g);
-			e.update();
+		for (int i = 0; i < bombs.size(); i++) {
+			if (mario.collisionBox.intersects(bombs.get(i).collisionBox)) {
+				bombblow.play(Audio.PLAY_ENTIRE_SONG);
+			}
+			else {
+			bombs.get(i).draw(g);
+			bombs.get(i).update();
+			}
+			}
+			
 		}
-		manager.checkCollision();
-		manager.purgeObjects();
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
