@@ -33,6 +33,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer forlevel2 = new Timer(700, this);
 	boolean fl2 = true;
 	boolean fl2sm = false;
+	boolean bombfalling = false;
 	boolean anotherboolean = true;
 	static boolean todrawaneagle = false;
 	boolean eaglelev2 = false;
@@ -59,6 +60,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	DrawSplatEgg SplatEgg = new DrawSplatEgg();
 	SkyDraw Sky = new SkyDraw();
 	TridentDraw trident = new TridentDraw();
+	Audio bombfreefall = new Audio("comedy_cartoon_falling_tone.mp3");
 
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
@@ -83,6 +85,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			manager.tocounterfortheend = false;
 			anotherboolean = true;
 			changetobomb = false;
+			bombfalling = false;
+			bombs = new ArrayList<Egg>();
 		} else if (currentState == GAME) {
 			if (end234) {
 				drawGameState(g);
@@ -162,7 +166,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			eagle.x = -400;
 			eagle.speed = 0;
 			anotherboolean = false;
-			Ohnononono.play(Audio.PLAY_ENTIRE_SONG);
+			//Ohnononono.play(Audio.PLAY_ENTIRE_SONG);
 			mario.left = true;
 			mario.right = true;
 			JOptionPane.showMessageDialog(null, "Oh no no no no no no no no");
@@ -217,6 +221,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			eagle.draw(g);
 			eagle.speed = 8;
 			if (eagle.x >= -40 && eagle.x <= 840 && todrawaneagle) {
+				if (!bombfalling) {
+					bombfalling = true;
+					bombfreefall.play(Audio.PLAY_ENTIRE_SONG);
+				}
 				if (eagle.x % 10 == 0) {
 					Egg bomb = new Egg (eagle.x, 50, 70, 45, 1000);
 					bomb.speed = 2;
@@ -237,6 +245,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			e.draw(g);
 			e.update();
 		}
+		manager.checkCollision();
+		manager.purgeObjects();
 	}
 
 	@Override
@@ -296,6 +306,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				manager.tocounterfortheend = false;
 				changetobomb = false;
 				bombs = new ArrayList<Egg>();
+				bombfalling = false;
 			} else {
 				currentState++;
 				if (currentState == GAME) {

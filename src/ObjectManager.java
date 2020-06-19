@@ -125,7 +125,6 @@ public class ObjectManager implements ActionListener {
 		}
 			checkCollision();
 			purgeObjects();
-			/// not being called in level 2
 		}
 
 	void draw(Graphics g) {
