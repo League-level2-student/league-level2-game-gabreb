@@ -32,6 +32,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer symphony = new Timer(398000, this);
 	Timer forlevel2 = new Timer(700, this);
 	boolean fl2 = true;
+	boolean forbombeffect = false;
+	boolean tomoderatemusic = false;
 	boolean fl2sm = false;
 	boolean bombfalling = false;
 	boolean anotherboolean = true;
@@ -39,6 +41,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	boolean eaglelev2 = false;
 	Audio Ohnononono = new Audio("ohno.mp3");
 	Timer forlevel2secondmessage = new Timer(100, this);
+	Timer bombdeath = new Timer(2500,this);
+	boolean tocounterbombdeath = false;
 	Player mario = new Player(402, 524, 50, 50);
 	Egg egg = new Egg(-100, 80, 50, 50, 1000);
 	ArrayList<Egg> bombs = new ArrayList<Egg>();
@@ -59,17 +63,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	static int numtrident = 5;
 	DrawSplatEgg SplatEgg = new DrawSplatEgg();
 	SkyDraw Sky = new SkyDraw();
+	BombShow bombing = new BombShow();
 	TridentDraw trident = new TridentDraw();
 	Audio bombfreefall = new Audio("comedy_cartoon_falling_tone.mp3");
-	Audio bombblow = new Audio("bigboom.wav");
-
+	
 	GamePanel() {
 		titleFont = new Font("Baskerville", Font.ITALIC, 52);
 		titleFontEnter = new Font("Baskerville", Font.ITALIC, 20);
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
 		titleFontTrident = new Font("Arial", Font.PLAIN, 23);
 		frameDraw = new Timer(1000 / 60, this);
-		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 
@@ -88,6 +92,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			changetobomb = false;
 			bombfalling = false;
 			bombs = new ArrayList<Egg>();
+			forbombeffect = false;
+			tomoderatemusic = false;
+			tocounterbombdeath = false;
 		} else if (currentState == GAME) {
 			if (end234) {
 				drawGameState(g);
@@ -183,8 +190,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		eagle.update(LEVEL2);
 		manager.update();
 		mario.update();
-		System.out.println(eagle.x);
-
 	}
 
 	void drawMenuState(Graphics g) {
@@ -209,50 +214,59 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawLevel2State(Graphics g) {
-		Sky.draw(g);
-		orchard.draw(g);
-		trident.draw(g);
-		// eagle.draw(g);
-		g.setFont(titleFontTrident);
-		g.setColor(Color.RED);
-		g.drawString("" + numtrident, 817, 40);
-		manager.draw(g);
-		if (todrawaneagle) {
-			changetobomb = true;
-			eagle.draw(g);
-			eagle.speed = 8;
-			if (eagle.x >= -40 && eagle.x <= 840 && todrawaneagle) {
-				if (!bombfalling) {
-					bombfalling = true;
-					bombfreefall.play(Audio.PLAY_ENTIRE_SONG);
+		if (forbombeffect) {
+			bombfreefall.stop();
+			if (!tomoderatemusic) {
+				Audio bombblow = new Audio("bigboom.wav");
+				tomoderatemusic = true;
 				}
-				if (eagle.x % 10 == 0) {
-					Egg bomb = new Egg (eagle.x, 50, 70, 45, 1000);
-					bomb.speed = 2;
-					bombs.add(bomb);
+			bombing.draw(g);
+			bombdeath.start();
+		} else {
+			Sky.draw(g);
+			orchard.draw(g);
+			trident.draw(g);
+			// eagle.draw(g);
+			g.setFont(titleFontTrident);
+			g.setColor(Color.RED);
+			g.drawString("" + numtrident, 817, 40);
+			manager.draw(g);
+			if (todrawaneagle) {
+				changetobomb = true;
+				eagle.draw(g);
+				eagle.speed = 8;
+				if (eagle.x >= -40 && eagle.x <= 840 && todrawaneagle) {
+					if (!bombfalling) {
+						bombfalling = true;
+						bombfreefall.play(Audio.PLAY_ENTIRE_SONG);
+					}
+					if (eagle.x % 10 == 0) {
+						Egg bomb = new Egg(eagle.x, 50, 70, 45, 1000);
+						bomb.speed = 2;
+						bombs.add(bomb);
+					}
+					if (eagle.x >= 830) {
+						eagle.x = -90;
+						eagle.width = 110;
+						eagle.height = 110;
+						eagle.speed = 4;
+						eagle.draw(g);
+						eagle.update();
+						todrawaneagle = false;
+					}
 				}
-				if (eagle.x >= 830) {
-					eagle.x = -90;
-					eagle.width = 110;
-					eagle.height = 110;
-					eagle.speed = 4;
-					eagle.draw(g);
-					eagle.update();
-					todrawaneagle = false;
+			}
+			for (int i = 0; i < bombs.size(); i++) {
+				if (mario.collisionBox.intersects(bombs.get(i).collisionBox)) {
+					forbombeffect = true;
+				} else {
+					bombs.get(i).draw(g);
+					bombs.get(i).update();
 				}
 			}
 		}
-		for (int i = 0; i < bombs.size(); i++) {
-			if (mario.collisionBox.intersects(bombs.get(i).collisionBox)) {
-				bombblow.play(Audio.PLAY_ENTIRE_SONG);
-			}
-			else {
-			bombs.get(i).draw(g);
-			bombs.get(i).update();
-			}
-			}
-			
-		}
+
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -281,6 +295,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			JOptionPane.showMessageDialog(null, "Now shoot the dam bird!");
 			fl2sm = false;
 			eaglelev2 = true;
+		}
+		if (e.getSource() == bombdeath && !tocounterbombdeath) {
+			currentState = MENU;
+			tocounterbombdeath = true;
 		}
 	}
 
@@ -312,6 +330,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				changetobomb = false;
 				bombs = new ArrayList<Egg>();
 				bombfalling = false;
+				forbombeffect = false;
+				tomoderatemusic = false;
+				tocounterbombdeath = false;
 			} else {
 				currentState++;
 				if (currentState == GAME) {
@@ -329,7 +350,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					egg = new Egg(-100, 80, 50, 50, 1000);
 					manager = new ObjectManager(mario, eagle, egg);
 					manager.updateforLevel2 = false;
-
 				}
 			}
 		}
