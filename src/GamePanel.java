@@ -73,7 +73,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFontScore = new Font("Arial", Font.PLAIN, 20);
 		titleFontTrident = new Font("Arial", Font.PLAIN, 23);
 		frameDraw = new Timer(1000 / 60, this);
-		//BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
+		BeethovensFifthAmazingSymphony.play(Audio.PLAY_ENTIRE_SONG);
 		symphony.start();
 		frameDraw.start();
 
@@ -95,6 +95,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			forbombeffect = false;
 			tomoderatemusic = false;
 			tocounterbombdeath = false;
+			manager.tadatimerboolena = true;
 		} else if (currentState == GAME) {
 			if (end234) {
 				drawGameState(g);
@@ -174,7 +175,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			eagle.x = -400;
 			eagle.speed = 0;
 			anotherboolean = false;
-			//Ohnononono.play(Audio.PLAY_ENTIRE_SONG);
+			Ohnononono.play(Audio.PLAY_ENTIRE_SONG);
 			mario.left = true;
 			mario.right = true;
 			JOptionPane.showMessageDialog(null, "Oh no no no no no no no no");
@@ -333,6 +334,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				forbombeffect = false;
 				tomoderatemusic = false;
 				tocounterbombdeath = false;
+				manager.tadatimerboolena = true;
 			} else {
 				currentState++;
 				if (currentState == GAME) {

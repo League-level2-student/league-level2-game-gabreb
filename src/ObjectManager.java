@@ -19,6 +19,8 @@ public class ObjectManager implements ActionListener {
 	Timer backtostart = new Timer(1, this);
 	Timer SplatTimer = new Timer(1700, this);
 	Timer fortheend = new Timer(1800, this);
+	Timer tadatimer = new Timer (1600,this);
+	boolean tadatimerboolena = true;
 	boolean birdkillb = false;
 	boolean torestart = false;
 	boolean tomanyofthese = true;
@@ -43,6 +45,7 @@ public class ObjectManager implements ActionListener {
 	boolean diedtoegg = false;
 	Audio Splat = new Audio("Splat Sound Effect copy.mp3");
 	Audio birdkill = new Audio("angry bird.mp3");
+	Audio tada = new Audio("Ta-da-orchestra-fanfare.mp3");
 
 	static int getScore() {
 		return score;
@@ -183,7 +186,13 @@ public class ObjectManager implements ActionListener {
 			tocounterfortheend = true;
 			torestart = true;
 		}
+		if (e.getSource() == tadatimer && tadatimerboolena) {
+			tadatimerboolena = false;
+			tada.play(Audio.PLAY_ENTIRE_SONG);
+
+		}
 	}
+	
 
 	void checkCollision() {
 		for (int i = 0; i < Alien.size(); i++) {
@@ -201,6 +210,7 @@ public class ObjectManager implements ActionListener {
 						if (!birdkillb) {
 							birdkillb = true;
 							birdkill.play(Audio.PLAY_ENTIRE_SONG);
+							tadatimer.start();
 						}
 						PJ.get(i).speed = -3;
 						eagle.downwards = 3;
