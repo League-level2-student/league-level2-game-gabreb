@@ -19,7 +19,7 @@ public class ObjectManager implements ActionListener {
 	Timer backtostart = new Timer(1, this);
 	Timer SplatTimer = new Timer(1700, this);
 	Timer fortheend = new Timer(1800, this);
-	Timer tadatimer = new Timer (1600,this);
+	Timer tadatimer = new Timer (1,this);
 	boolean tadatimerboolena = true;
 	boolean birdkillb = false;
 	boolean torestart = false;
@@ -210,12 +210,12 @@ public class ObjectManager implements ActionListener {
 						if (!birdkillb) {
 							birdkillb = true;
 							birdkill.play(Audio.PLAY_ENTIRE_SONG);
-							tadatimer.start();
 						}
 						PJ.get(i).speed = -3;
 						eagle.downwards = 3;
 						
 					} else {
+						tadatimer.start();
 						PJ.get(i).speed = 0;
 						eagle.downwards = 0;
 						tostoptheham = true;

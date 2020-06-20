@@ -64,6 +64,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	DrawSplatEgg SplatEgg = new DrawSplatEgg();
 	SkyDraw Sky = new SkyDraw();
 	BombShow bombing = new BombShow();
+	Sunglass sunglass;
 	TridentDraw trident = new TridentDraw();
 	Audio bombfreefall = new Audio("comedy_cartoon_falling_tone.mp3");
 	
@@ -246,8 +247,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 						bomb.speed = 2;
 						bombs.add(bomb);
 					}
-					if (eagle.x >= 830) {
-						eagle.x = -90;
+					if (eagle.x >= 840) {
+						eagle.x = -80;
 						eagle.width = 110;
 						eagle.height = 110;
 						eagle.speed = 4;
@@ -266,7 +267,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -293,7 +293,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			fl2sm = true;
 		}
 		if (e.getSource() == forlevel2secondmessage && fl2sm && currentState == LEVEL2) {
-			JOptionPane.showMessageDialog(null, "Now shoot the dam bird!");
+			JOptionPane.showMessageDialog(null, "Now use the space bar to shoot the damn bird!");
 			fl2sm = false;
 			eaglelev2 = true;
 		}
@@ -312,7 +312,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (currentState == MENU && e.getKeyCode() == KeyEvent.VK_SPACE) {
-			JOptionPane.showMessageDialog(null, "No instructions");
+			JOptionPane.showMessageDialog(null, "Use the arrow keys to move and catch the apples\n    to survive. PS. The eagle is not your friend!");
 		}
 		if (currentState == LEVEL2 && e.getKeyCode() == KeyEvent.VK_SPACE && manager.oneatatime && numtrident > 0) {
 			manager.addProjectile(mario.getProjectile());
