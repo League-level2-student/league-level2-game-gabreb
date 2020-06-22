@@ -149,6 +149,7 @@ public class ObjectManager implements ActionListener {
 			}
 			eagle.draw(g);
 			mario.draw(g);
+			egg.draw(g);
 		}
 	}
 

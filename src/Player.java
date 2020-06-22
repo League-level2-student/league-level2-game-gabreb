@@ -66,7 +66,7 @@ public class Player extends GameObject {
 	}
 
 	void update() {
-	
+		System.out.println(speed);
 		if (right==true) {
 			right();
 		}

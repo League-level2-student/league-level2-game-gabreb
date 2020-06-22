@@ -64,7 +64,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	DrawSplatEgg SplatEgg = new DrawSplatEgg();
 	SkyDraw Sky = new SkyDraw();
 	BombShow bombing = new BombShow();
-	Sunglass sunglass;
 	TridentDraw trident = new TridentDraw();
 	Audio bombfreefall = new Audio("comedy_cartoon_falling_tone.mp3");
 	
@@ -97,6 +96,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			tomoderatemusic = false;
 			tocounterbombdeath = false;
 			manager.tadatimerboolena = true;
+			mario = new Player(402, 524, 50, 50);
+			egg = new Egg(-100, 80, 50, 50, 1000);
+			eagle = new Eagle(-2400, 50, 90, 90);
+			manager = new ObjectManager(mario, eagle, egg);
 		} else if (currentState == GAME) {
 			if (end234) {
 				drawGameState(g);
@@ -299,6 +302,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		if (e.getSource() == bombdeath && !tocounterbombdeath) {
 			currentState = MENU;
+			bombdeath.stop();
 			tocounterbombdeath = true;
 		}
 	}
